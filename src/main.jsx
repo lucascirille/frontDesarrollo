@@ -1,10 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.min.css';  // Importar el CSS de Bootstrap
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // Importar el JS de Bootstrap
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './index.css'
 import Root from './routes/root';
 import Perfil from './routes/perfil';
 import Perfiles from "./routes/perfiles"
