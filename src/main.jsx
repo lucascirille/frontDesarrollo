@@ -18,33 +18,35 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/perfil",
-    element: <Perfiles />,
     children: [
       {
-        path: "/perfil/:Id",
-        element: <Perfil />,
+        path: "/perfil",
+        element: <Perfiles />,
+        children: [
+          {
+            path: "/perfil/:Id",
+            element: <Perfil />,
+          }
+        ]
+
+      },
+      {
+        path: "/contactanos",
+        element: <p>Contactameee</p>
+      },
+      {
+        path: "/nosotros",
+        element: <p>Hola</p>
+      },
+      {
+        path: "/reserva",
+        element: <p>Reserva</p>
+      },
+      {
+        path: "/eventos",
+        element: <p>Eventos</p>
       }
     ]
-
-  },
-  {
-    path: "/contactanos",
-    element: <p>Contactameee</p>
-  },
-  {
-    path: "/nosotros",
-    element: <p>Hola</p>
-  },
-  {
-    path: "/reserva",
-    element: <p>Reserva</p>
-  },
-  {
-    path: "/eventos",
-    element: <p>Eventos</p>
   }
 ]);
 
