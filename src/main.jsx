@@ -10,6 +10,7 @@ import Root from './routes/root';
 import Perfil from './routes/perfil';
 import Perfiles from "./routes/perfiles"
 import ErrorPage from './routes/errorPage';
+import Home from './routes/home';
 
 
 
@@ -31,20 +32,28 @@ const router = createBrowserRouter([
 
       },
       {
-        path: "/contactanos",
-        element: <p>Contactameee</p>
+        path: "/nosotros",
+        element: <p>Hola a todos</p>
       },
       {
-        path: "/nosotros",
-        element: <p>Hola</p>
+        path: "/salones",
+        element: <p>Salones</p>
+      },
+      {
+        path: "/eventosSociales",
+        element: <p>Eventos Sociales</p>
+      },
+      {
+        path: "/eventosCorporativos",
+        element: <p>Eventos Corporativos</p>
       },
       {
         path: "/reserva",
         element: <p>Reserva</p>
       },
       {
-        path: "/eventos",
-        element: <p>Eventos</p>
+        path: "/contactanos",
+        element: <p>Contactameee</p>
       }
     ]
   }

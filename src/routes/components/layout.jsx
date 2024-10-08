@@ -4,34 +4,46 @@ export default function Layout({ children }) {
   return (
 
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container">
-          <Link className="navbar-brand" to={"/"}>EventCraft</Link>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to={"/"}>
+            <img src="../../../public/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />
+            <span style={{ marginLeft: '8px', fontSize: '24px', fontWeight: 'bold' }}>EventCraft</span>
+          </Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
+            <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <Link className="nav-link" to={"/perfil"}>Perfil</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/contactanos"}>Contactanos</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/nosotros"}>Nosotros</Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to={"/salones"}>Salones</Link>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Eventos
+                </a>
+                <ul class="dropdown-menu">
+                  <li><Link class="dropdown-item" to={"/eventosSociales"}>Sociales</Link></li>
+                  <li><Link class="dropdown-item" to={"/eventosCorporativos"}>Corporativos</Link></li>
+                </ul>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to={"/reserva"}>Reserva</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/eventos"}>Eventos</Link>
+                <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/contactanos"}>Contactanos</Link>
               </li>
             </ul>
           </div>
         </div>
       </nav>
-      <div className="container">
+      <div style={{ paddingTop: '56px', padding: 0, margin: 0, width: '100%', height: '100vh' }}>
         {children}
       </div>
 
