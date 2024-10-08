@@ -1,13 +1,32 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Layout({ children }) {
+
+  const [navbarClass, setNavbarClass] = useState("navbar transparent");
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setNavbarClass("navbar solid");
+    } else {
+      setNavbarClass("navbar transparent");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
 
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <nav className={navbarClass + " navbar-expand-lg fixed-top"}>
         <div className="container-fluid">
           <Link className="navbar-brand" to={"/"}>
-            <img src="../../../public/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />
+            <img src="/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />
             <span style={{ marginLeft: '8px', fontSize: '24px', fontWeight: 'bold' }}>EventCraft</span>
           </Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +62,7 @@ export default function Layout({ children }) {
           </div>
         </div>
       </nav>
-      <div style={{ paddingTop: '56px', padding: 0, margin: 0, width: '100%', height: '100vh' }}>
+      <div style={{  paddingTop: '70px', width: '100%', height: '100vh' }}>
         {children}
       </div>
 
