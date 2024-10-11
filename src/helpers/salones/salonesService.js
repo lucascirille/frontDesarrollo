@@ -12,5 +12,6 @@ export function createSalon(nuevoSalon) {
 
 //DELETE
 export function deleteSalon(salonId) {
-    return axios.delete(`https://localhost:7164/api/Salon/eliminarSalon/${salonId}`);
+    console.log(salonId);
+    return axios.delete(`https://localhost:7164/api/Salon/eliminarSalon?id=${salonId}`);
 }

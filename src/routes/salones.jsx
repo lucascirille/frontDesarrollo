@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { getSalones,createSalon,deleteSalon } from "../helpers/salones/salonesService";
+import ConfirmarEliminacion from "./components/confirmarEliminacion";
 
 const schema = yup.object({
     nombre: yup.string().required(),
@@ -22,7 +23,9 @@ const schema = yup.object({
 export default function Salones() {
     
     const [salones, setSalones] = useState([]);
+    const [salonAEliminar, setSalonAEliminar] = useState(null);
     const [error, setError] = useState(null);
+    const [showSalones, setShowSalones] = useState(true);
     const [formVisible, setFormVisible] = useState(false);
     const { register, handleSubmit, reset } = useForm({
         resolver: yupResolver(schema)
@@ -54,14 +57,32 @@ export default function Salones() {
         }
     };
 
-    const handleDeleteSalon = async (salonId) => {
-        try {
-            await deleteSalon(salonId);
-            setSalones(salones.filter(salon => salon.id !== salonId));
-        } catch (error) {
-            console.error("Error al eliminar el salón:", error);
-            setError("Error al eliminar el salón.");
-        }
+    const handleDeleteSalon = (salonId) => {
+        console.log(salonId);
+        setSalonAEliminar(salonId);
+        setShowSalones(false);
+    };
+
+    useEffect(() => {
+        console.log("Salon a eliminar actualizado:", salonAEliminar); 
+    }, [salonAEliminar]);
+
+    const confirmarDeleteSalon = async () => {
+            try {
+                console.log(salonAEliminar);
+                await deleteSalon(salonAEliminar);
+                setSalones(salones.filter(salon => salon.id !== salonAEliminar));
+                setSalonAEliminar(null); 
+                setShowSalones(true);
+            } catch (error) {
+                console.error("Error al eliminar el salón:", error);
+                setError("Error al eliminar el salón.");
+            }
+    };
+
+    const cancelarDeleteSalon = () => {
+        setSalonAEliminar(null); 
+        setShowSalones(true);
     };
 
     return (
@@ -133,12 +154,13 @@ export default function Salones() {
                 </form>
             )}
 
-            {!formVisible && salones && (
+            {showSalones && !formVisible && salones && (
                 <div>
                     {salones
                     //.filter(salon => salon.estado === true)
                     .map((salon) => (
                         <div key={salon.id}>
+                            <hr />
                             <h3>{salon.nombre}</h3>
                             <ul>
                                 <li>Tipo: {salon.tipo}</li>
@@ -152,15 +174,18 @@ export default function Salones() {
                                 <li>Localidad: {salon.localidad}</li>
                             </ul>
                             <button onClick={() => handleDeleteSalon(salon.id)}>Eliminar</button>
-                            <hr />
                         </div>
                     ))}
                 </div>
             )}
 
-            <div className="">
-
-            </div>
+            {salonAEliminar && (
+                <ConfirmarEliminacion
+                    onConfirm={confirmarDeleteSalon}
+                    onCancel={cancelarDeleteSalon}
+                />
+            )}
+            
         </>
 
     );
