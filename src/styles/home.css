@@ -6,7 +6,7 @@
 }
 
 .home-container {
-  background-image: url('../../public/images/luffy-de-one-piece-12352.webp');
+  background-image: url('/images/luffy-de-one-piece-12352.webp');
   background-size: cover;
   background-position: center;
   height: 100vh; /* Ocupa toda la pantalla */
