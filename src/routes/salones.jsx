@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { getSalones,createSalon,deleteSalon } from "../helpers/salones/salonesService";
+import { getSalones,createSalon,deleteSalon,updateSalon } from "../helpers/salones/salonesService";
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 
 const schema = yup.object({
@@ -24,10 +24,11 @@ export default function Salones() {
     
     const [salones, setSalones] = useState([]);
     const [salonAEliminar, setSalonAEliminar] = useState(null);
+    const [salonAEditar, setSalonAEditar] = useState(null);
     const [error, setError] = useState(null);
     const [showSalones, setShowSalones] = useState(true);
     const [formVisible, setFormVisible] = useState(false);
-    const { register, handleSubmit, reset } = useForm({
+    const { register, handleSubmit, reset, setValue } = useForm({
         resolver: yupResolver(schema)
       }); 
 
@@ -47,25 +48,37 @@ export default function Salones() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await createSalon(data); 
-            setSalones([...salones, response.data.datos]);
+            if (salonAEditar) {
+                await updateSalon(salonAEditar.id, data);
+                setSalones(salones.map(salon => salon.id === salonAEditar.id ? data : salon));
+                setSalonAEditar(null);  
+            } else {
+                const response = await createSalon(data);
+                setSalones([...salones, response.data.datos]);
+            }
             reset();
-            setFormVisible(false); 
-            console.log(data)
+            setFormVisible(false);  
         } catch (error) {
-            setError("Error al crear el salón.");
+            setError(salonAEditar ? "Error al actualizar el salón." : "Error al crear el salón.");
         }
     };
 
+
     const handleDeleteSalon = (salonId) => {
-        console.log(salonId);
         setSalonAEliminar(salonId);
         setShowSalones(false);
     };
 
-    useEffect(() => {
-        console.log("Salon a eliminar actualizado:", salonAEliminar); 
-    }, [salonAEliminar]);
+    const handleEditSalon = (salon) => {
+        setSalonAEditar(salon);
+        setFormVisible(true);
+
+        Object.keys(salon).forEach((key) => {
+            setValue(key, salon[key]);
+        });
+    };
+
+
 
     const confirmarDeleteSalon = async () => {
             try {
@@ -174,6 +187,7 @@ export default function Salones() {
                                 <li>Localidad: {salon.localidad}</li>
                             </ul>
                             <button onClick={() => handleDeleteSalon(salon.id)}>Eliminar</button>
+                            <button onClick={() => handleEditSalon(salon)}>Editar</button>
                         </div>
                     ))}
                 </div>
