@@ -11,7 +11,8 @@ import Perfil from './routes/perfil';
 import Perfiles from "./routes/perfiles"
 import ErrorPage from './routes/errorPage';
 import Home from './routes/home';
-import Salones from './routes/Salones';
+import Salones from './routes/salones';
+import SalonesCliente from './routes/salonesCliente';
 
 
 
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/salones",
-        element: <p><Salones /></p>
+        element: <Salones />
+      },
+      {
+        path: "/salonesCliente",
+        element: <SalonesCliente />
       },
       {
         path: "/eventosSociales",

@@ -48,6 +48,7 @@ export default function Salones() {
 
     const onSubmit = async (data) => {
         try {
+            console.log(salonAEditar);
             if (salonAEditar) {
                 await updateSalon(salonAEditar.id, data);
                 setSalones(salones.map(salon => salon.id === salonAEditar.id ? data : salon));
@@ -70,6 +71,7 @@ export default function Salones() {
     };
 
     const handleEditSalon = (salon) => {
+        console.log("Este es el salon", salon);
         setSalonAEditar(salon);
         setFormVisible(true);
 
