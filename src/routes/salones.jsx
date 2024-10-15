@@ -172,7 +172,6 @@ export default function Salones() {
             {showSalones && !formVisible && salones && (
                 <div>
                     {salones
-                    //.filter(salon => salon.estado === true)
                     .map((salon) => (
                         <div key={salon.id}>
                             <hr />

@@ -13,6 +13,7 @@ import ErrorPage from './routes/errorPage';
 import Home from './routes/home';
 import Salones from './routes/salones';
 import SalonesCliente from './routes/salonesCliente';
+import SalonInfo from './routes/components/salonInfo';
 
 
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/salonesCliente",
         element: <SalonesCliente />
+      },
+      {
+        path: "/salon/:id",
+         element: <SalonInfo />
       },
       {
         path: "/eventosSociales",

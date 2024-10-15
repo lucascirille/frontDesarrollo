@@ -1,11 +1,13 @@
 import '../styles/salonesCliente.css';
 import { useState, useEffect } from "react";
 import { getSalones } from "../helpers/salones/salonesService";
+import { useNavigate } from 'react-router-dom';
 
 export default function SalonesCliente() {
 
     const [salones, setSalones] = useState([]);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function ObtenerSalones() {
@@ -20,6 +22,9 @@ export default function SalonesCliente() {
         ObtenerSalones(); 
     }, []);
 
+    const handleMoreInfo = (id) => {
+        navigate(`/salon/${id}`);
+    };
 
     return(
         <>
@@ -29,7 +34,9 @@ export default function SalonesCliente() {
                 </header>
             </div>
             <div className="row">
-                {salones.map((salon) => (
+                {salones
+                .filter(salon => salon.estado === true)
+                .map((salon) => (
                     <div key={salon.id} className="col-md-4 mb-4">
                         <div className="card shadow" style={{ width: "100%" }}>
                             <img src="/images/hotel-exterior-night.jpg" className="card-img-top" alt={`Image for ${salon.nombre}`} />
@@ -43,7 +50,7 @@ export default function SalonesCliente() {
                                 <p className="card-text">Precio Hora: {salon.precioHora}</p>
                                 <p className="card-text">Direccion: {salon.direccion}</p>
                                 <p className="card-text">Localidad: {salon.localidad}</p>
-                                <a href="#" className="btn btn-primary">Reserva capo</a>
+                                <a className="btn btn-primary" onClick={() => handleMoreInfo(salon.id)} >Más Informacion</a>
                             </div>
                         </div>
                     </div>
