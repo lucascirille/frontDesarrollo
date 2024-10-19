@@ -1,31 +1,65 @@
 import axios from "axios";
 
 // GET
-export function getSalones() {
-    return axios.get("https://localhost:7164/api/Salon/obtenerSalones");
+export async function getSalones() {
+    try {
+        const response = await axios.get("https://localhost:7164/api/Salon/obtenerSalones");
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.mensaje);
+    }
 }
 
 // POST
-export function createSalon(nuevoSalon) {
-    return axios.post("https://localhost:7164/api/Salon/crearSalon", nuevoSalon); 
+export async function createSalon(nuevoSalon) {
+    try {
+        const response = await axios.post("https://localhost:7164/api/Salon/crearSalon", nuevoSalon);
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.mensaje);
+    }
 };
 
 //DELETE
-export function deleteSalon(salonId) {
-    return axios.delete(`https://localhost:7164/api/Salon/eliminarSalon?id=${salonId}`);
+export async function deleteSalon(salonId) {
+    try {
+        const response = await axios.delete(`https://localhost:7164/api/Salon/eliminarSalon?id=${salonId}`);
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.mensaje);
+    }
 }
 
-export const updateSalon = (salonId, salonData) => {
-    return axios.put(`https://localhost:7164/api/Salon/modificarSalon?id=${salonId}`, salonData);
+//EDIT
+export async function updateSalon(salonId, salonData) {
+    try {
+        const response = await axios.put(`https://localhost:7164/api/Salon/modificarSalon?id=${salonId}`, salonData);
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.mensaje);
+    } 
 };
 
-// GET
-export function getCaracteristicasBySalonId(salonId) {
-    return axios.get(`https://localhost:7164/api/SalonCaracteristica/obtenerCaracteristicaPorSalonId?id=${salonId}`);
+
+// GET 
+export async function getCaracteristicasBySalonId(salonId) {
+    try {
+        const response = await axios.get(`https://localhost:7164/api/SalonCaracteristica/obtenerCaracteristicaPorSalonId?id=${salonId}`);
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.mensaje);
+    } 
 }
 
+
 // GET
-export function getServiciosBySalonId(salonId) {
-    return axios.get(`https://localhost:7164/api/SalonServicio/obtenerServicioPorSalonId?id=${salonId}`);
+export async function getServiciosBySalonId(salonId) {
+    try {
+        const response = await axios.get(`https://localhost:7164/api/SalonServicio/obtenerServicioPorSalonId?id=${salonId}`);
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.mensaje);
+
+    }  
 }
 

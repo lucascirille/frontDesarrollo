@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext'; 
 
 export default function LayoutCliente({ children }) {
 
   const [navbarClass, setNavbarClass] = useState("navbar transparent");
+  const { user, cerrarSesion } = useContext(AuthContext); // Obtenemos el estado del usuario y la función de cerrar sesión
+
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -52,12 +56,23 @@ export default function LayoutCliente({ children }) {
                   <li><Link class="dropdown-item" to={"/eventosCorporativos"}>Corporativos</Link></li>
                 </ul>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/reserva"}>Reserva</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/contactanos"}>Contactanos</Link>
-              </li>
+              {user ? (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to={"/reserva"}>Reserva</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/contactanos"}>Contactanos</Link>
+                  </li>
+                  <li className="nav-item">
+                    <button className="nav-link border-0 bg-transparent" onClick={cerrarSesion}>Cerrar Sesión</button>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item">
+                  <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/login"}>Iniciar Sesión</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

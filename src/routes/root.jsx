@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Layout from "./components/layout";
 import LayoutCliente from "./components/layoutCliente";
+import { useContext } from 'react';
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function Root() {
-  
-  const isAdmin = false;
+  const { role } = useContext(AuthContext);
 
   return (
     <>
-      {isAdmin ? (
+      { role === 'Admin' ? (
         <Layout>
           <Outlet />
         </Layout>

@@ -14,6 +14,8 @@ import Home from './routes/home';
 import Salones from './routes/salones';
 import SalonesCliente from './routes/salonesCliente';
 import SalonInfo from './routes/components/salonInfo';
+import { AuthProvider } from './context/AuthContext';
+import LoginForm from './routes/components/login';
 
 
 
@@ -69,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: "/contactanos",
         element: <p>Contactameee</p>
+      },
+      {
+        path: "/login",
+        element: <LoginForm />
       }
     ]
   }
@@ -76,7 +82,10 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
+  <AuthProvider>
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  </AuthProvider>
+  
 );
