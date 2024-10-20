@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../../helpers/autenticacion/validationSchemas';
 import { useNavigate } from 'react-router-dom';
+import { registrarUsuario } from '../../helpers/usuarios/loginRegisterLogout';
 
 const RegisterForm = () => {
     const navigate = useNavigate();
@@ -16,12 +17,16 @@ const RegisterForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            await register(data); 
+            await registrarUsuario(data); 
             navigate('/login'); 
         } catch (error) {
             console.error('Error al registrar:', error);
         }
     };
+
+    const handleCancel = () => {
+        navigate(-1); 
+      };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,6 +97,9 @@ const RegisterForm = () => {
         </div>
 
         <button type="submit" className="btn btn-primary">Registrarse</button>
+        <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+            Cancelar
+        </button>
         </form>
     );
 };

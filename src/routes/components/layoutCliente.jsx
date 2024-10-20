@@ -65,7 +65,7 @@ export default function LayoutCliente({ children }) {
                     <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/contactanos"}>Contactanos</Link>
                   </li>
                   <li className="nav-item">
-                    <button className="nav-link border-0 bg-transparent" onClick={cerrarSesion}>Cerrar Sesión</button>
+                    <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/logout"}>Cerrar Sesión</Link>
                   </li>
                 </>
               ) : (

@@ -16,6 +16,9 @@ import SalonesCliente from './routes/salonesCliente';
 import SalonInfo from './routes/components/salonInfo';
 import { AuthProvider } from './context/AuthContext';
 import LoginForm from './routes/components/login';
+import LogoutForm from './routes/components/logout';
+import RegisterForm from './routes/components/register';
+import ProtectedRoute from './routes/components/utils/protectedRoute';
 
 
 
@@ -46,7 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/salones",
-        element: <Salones />
+        element:<ProtectedRoute allowedRoles={['Admin']}> <Salones /> </ProtectedRoute>
       },
       {
         path: "/salonesCliente",
@@ -75,6 +78,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginForm />
+      },
+      {
+        path: "/logout",
+        element: <LogoutForm />
+      },
+      {
+        path: "/register",
+        element: <RegisterForm />
       }
     ]
   }

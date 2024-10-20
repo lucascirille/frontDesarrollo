@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-  const { iniciarSesion } = useContext(AuthContext);
+  const { iniciarSesion, error } = useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
@@ -17,8 +17,14 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data) => {
-    await iniciarSesion(data); 
-    navigate('/');
+    const success = await iniciarSesion(data); 
+    if (success) {
+      navigate('/'); 
+    }
+  };
+
+  const handleRegister = () => {
+    navigate('/register'); 
   };
 
   return (
@@ -45,7 +51,12 @@ const LoginForm = () => {
         {errors.clave && <p className="text-danger">{errors.clave.message}</p>}
       </div>
 
+      {error && <p className="text-danger">{error}</p>}
+
       <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
+      <button type="button" className="btn btn-secondary" onClick={handleRegister}>
+        Registrate
+      </button>
     </form>
   );
 };

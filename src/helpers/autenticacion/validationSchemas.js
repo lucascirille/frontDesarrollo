@@ -15,7 +15,7 @@ export const registerSchema = Yup.object().shape({
     clave: Yup.string()
     .required('La contraseña es obligatoria')
     .min(6, 'La contraseña debe tener al menos 6 caracteres'),
-  claveConfirmada: Yup.string()
+    claveConfirmada: Yup.string()
     .oneOf([Yup.ref('clave'), null], 'Las contraseñas deben coincidir')
     .required('Debe confirmar su contraseña'),
 });
