@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 export default function LayoutCliente({ children }) {
 
   const [navbarClass, setNavbarClass] = useState("navbar transparent");
-  const { user, cerrarSesion } = useContext(AuthContext); // Obtenemos el estado del usuario y la función de cerrar sesión
+  const { user } = useContext(AuthContext); 
 
 
   const handleScroll = () => {
@@ -33,6 +33,11 @@ export default function LayoutCliente({ children }) {
             <img src="/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />
             <span style={{ marginLeft: '8px', fontSize: '24px', fontWeight: 'bold' }}>EventCraft</span>
           </Link>
+          {user && (
+            <span className="navbar-text ms-3">
+              Bienvenido, {user.nombreUsuario}
+            </span>
+          )}
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>

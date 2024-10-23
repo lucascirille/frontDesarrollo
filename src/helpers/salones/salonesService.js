@@ -6,6 +6,7 @@ export async function getSalones() {
         const response = await axios.get("https://localhost:7164/api/Salon/obtenerSalones");
         return response;
     } catch (error) {
+        console.log(error.response);
         throw new Error(error.response?.data?.mensaje);
     }
 }

@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Incluye el padding y el border en el tamaño total */
+    max-width: 100%;
+  }
+  
+  .nosotros-container {
+    background-image: url('/images/paisaje3.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Ocupa toda la pantalla */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+  }
+  .nosotros-container h1 {
+    font-size: 6rem;  /* Tamaño de letra más grande */
+    font-family: 'Georgia', serif;  /* Fuente formal */
+    font-weight: 600;  /* Hace que la letra sea más gruesa pero elegante */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+  
+  .navbar {
+    transition: background-color 0.3s ease; /* Transición suave */
+  }
+  
+  .navbar.transparent {
+    background-color: transparent; /* Color de fondo transparente */
+  }
+  
+  .navbar.solid {
+    background-color: rgba(255, 255, 255, 0.95); /* Color de fondo sólido, ajusta la opacidad si es necesario */
+  }

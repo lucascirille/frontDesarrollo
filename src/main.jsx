@@ -19,6 +19,9 @@ import LoginForm from './routes/components/login';
 import LogoutForm from './routes/components/logout';
 import RegisterForm from './routes/components/register';
 import ProtectedRoute from './routes/components/utils/protectedRoute';
+import Nosotros from './routes/nosotros';
+import Sociales from './routes/sociales';
+import Coorporativos from './routes/coorporativos';
 
 
 
@@ -45,7 +48,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/nosotros",
-        element: <p> nosotrosss</p>
+        element: <Nosotros/>
       },
       {
         path: "/salones",
@@ -61,11 +64,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/eventosSociales",
-        element: <p>Eventos Sociales</p>
+        element: <Sociales />
       },
       {
         path: "/eventosCorporativos",
-        element: <p>Eventos Corporativos</p>
+        element: <Coorporativos />
       },
       {
         path: "/reserva",
