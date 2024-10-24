@@ -32,14 +32,3 @@
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-.navbar {
-  transition: background-color 0.3s ease; /* Transición suave */
-}
-
-.navbar.transparent {
-  background-color: transparent; /* Color de fondo transparente */
-}
-
-.navbar.solid {
-  background-color: rgba(255, 255, 255, 0.95); /* Color de fondo sólido, ajusta la opacidad si es necesario */
-}

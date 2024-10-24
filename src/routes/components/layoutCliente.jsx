@@ -2,18 +2,19 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext'; 
+import '../../styles/layout.css'
 
 export default function LayoutCliente({ children }) {
 
-  const [navbarClass, setNavbarClass] = useState("navbar transparent");
+  const [navbarClass, setNavbarClass] = useState("navbar-transparent");
   const { user } = useContext(AuthContext); 
 
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
-      setNavbarClass("navbar solid");
+      setNavbarClass("navbar-solid");
     } else {
-      setNavbarClass("navbar transparent");
+      setNavbarClass("navbar-transparent");
     }
   };
 
@@ -27,7 +28,7 @@ export default function LayoutCliente({ children }) {
   return (
 
     <>
-      <nav className={navbarClass + " navbar-expand-lg fixed-top"}>
+      <nav className={`${navbarClass} navbar navbar-expand-lg fixed-top`}>
         <div className="container-fluid">
           <Link className="navbar-brand" to={"/"}>
             <img src="/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />

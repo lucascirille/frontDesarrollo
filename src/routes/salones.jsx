@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { getSalones,createSalon,deleteSalon,updateSalon } from "../helpers/salones/salonesService";
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
+import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import '../styles/salonesForm.css'
 
 const schema = yup.object({
     nombre: yup.string().required(),
@@ -26,6 +28,7 @@ export default function Salones() {
     const [salonAEliminar, setSalonAEliminar] = useState(null);
     const [salonAEditar, setSalonAEditar] = useState(null);
     const [error, setError] = useState(null);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [showSalones, setShowSalones] = useState(true);
     const [formVisible, setFormVisible] = useState(false);
     const { register, handleSubmit, reset, setValue } = useForm({
@@ -48,7 +51,6 @@ export default function Salones() {
 
     const onSubmit = async (data) => {
         try {
-            console.log(salonAEditar);
             if (salonAEditar) {
                 await updateSalon(salonAEditar.id, data);
                 setSalones(salones.map(salon => salon.id === salonAEditar.id ? data : salon));
@@ -67,11 +69,10 @@ export default function Salones() {
 
     const handleDeleteSalon = (salonId) => {
         setSalonAEliminar(salonId);
-        setShowSalones(false);
+        setShowConfirmDialog(true);
     };
 
     const handleEditSalon = (salon) => {
-        console.log("Este es el salon", salon);
         setSalonAEditar(salon);
         setFormVisible(true);
 
@@ -84,11 +85,11 @@ export default function Salones() {
 
     const confirmarDeleteSalon = async () => {
             try {
-                console.log(salonAEliminar);
                 await deleteSalon(salonAEliminar);
                 setSalones(salones.filter(salon => salon.id !== salonAEliminar));
                 setSalonAEliminar(null); 
                 setShowSalones(true);
+                setShowConfirmDialog(false);
             } catch (error) {
                 console.error("Error al eliminar el salón:", error);
                 setError("Error al eliminar el salón.");
@@ -98,81 +99,149 @@ export default function Salones() {
     const cancelarDeleteSalon = () => {
         setSalonAEliminar(null); 
         setShowSalones(true);
+        setShowConfirmDialog(false);
     };
 
     return (
         <>
+            <Container>
+                {showSalones && !formVisible && !salonAEditar && (
+                    <Button variant="success" className="mb-3" onClick={() => setFormVisible(true)}>
+                        Crear Salón
+                    </Button>
+                )}
 
-            <button type="button" className="btn btn-success" onClick={() => setFormVisible(true)}>
-                Crear Salón
-            </button>
+                {formVisible && (
+                    <>
+                    <h2>{salonAEditar ? "Editar Salón" : "Alta Salón"}</h2>
+                    <div className="separator"></div>
+                    <br/>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
+                        <Row className="mb-3">
+                            <Col>
+                                <Form.Group controlId="nombre">
+                                    <Form.Label>Nombre del Salón</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Nombre del salón"
+                                        {...register("nombre")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="tipo">
+                                    <Form.Label>Tipo de Salón</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Tipo del salón"
+                                        {...register("tipo")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
 
-            {formVisible && (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        placeholder="Nombre del salón"
-                        {...register("nombre")} 
-                    />
-                    <br />
-                    <input
-                        placeholder="tipo del salón"
-                        {...register("tipo")} 
-                    />
-                    <br />
-                    <label>
-                        ¿Publicar?
-                        <input
-                            type="checkbox"
-                            {...register("estado")} 
-                        />
-                    </label>
-                    <br />
-                    <input
-                        type="tel"
-                        placeholder="Telefono"
-                        {...register("telefono")}
-                    />
-                    <br />
-                    <input
-                        type="number"
-                        placeholder="Capacidad del salón"
-                        {...register("capacidad")}
-                    />
-                    <br />
-                    <input
-                        placeholder="Dimensiones en Mt2"
-                        {...register("dimensionesMt2")}
-                    />
-                    <br />
-                    <input
-                        placeholder="Precio Base"
-                        {...register("precioBase")}
-                    />
-                    <br />
-                    <input
-                        placeholder="Precio Hora"
-                        {...register("precioHora")}
-                    />
-                    <br />
-                    <input
-                        placeholder="Direccion"
-                        {...register("direccion")}
-                    />
-                    <br />
-                    <input
-                        placeholder="Localidad"
-                        {...register("localidad")}
-                    />
-                    <br />
-                    <button type="submit">Guardar Salón</button>
-                    <button type="button" onClick={() => setFormVisible(false)}>Cancelar</button>
-                </form>
+                        <Form.Group controlId="estado" className="mb-3">
+                            <Form.Check
+                                type="checkbox"
+                                label="¿Publicar?"
+                                {...register("estado")}
+                            />
+                        </Form.Group>
+
+                        <Row className="mb-3">
+                            <Col>
+                                <Form.Group controlId="telefono">
+                                    <Form.Label>Teléfono</Form.Label>
+                                    <Form.Control
+                                        type="tel"
+                                        placeholder="Teléfono"
+                                        {...register("telefono")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="capacidad">
+                                    <Form.Label>Capacidad del Salón</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="Capacidad"
+                                        {...register("capacidad")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Col>
+                                <Form.Group controlId="dimensionesMt2">
+                                    <Form.Label>Dimensiones (m²)</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        step="0.01" 
+                                        placeholder="Dimensiones en m²"
+                                        {...register("dimensionesMt2")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="precioBase">
+                                    <Form.Label>Precio Base</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        step="0.01" 
+                                        placeholder="Precio Base"
+                                        {...register("precioBase")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Col>
+                                <Form.Group controlId="precioHora">
+                                    <Form.Label>Precio por Hora</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        step="0.01" 
+                                        placeholder="Precio por Hora"
+                                        {...register("precioHora")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="direccion">
+                                    <Form.Label>Dirección</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Dirección"
+                                        {...register("direccion")}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Form.Group controlId="localidad" className="mb-3">
+                            <Form.Label>Localidad</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Localidad"
+                                {...register("localidad")}
+                            />
+                        </Form.Group>
+
+                        <Button variant="primary" type="submit">
+                            Guardar Salón
+                        </Button>
+                        <Button variant="secondary" className="ms-2" onClick={() => {setFormVisible(false); setSalonAEditar(null); reset();}}>
+                            Cancelar
+                        </Button>
+                    </Form>
+                    </>
             )}
 
             {showSalones && !formVisible && salones && (
                 <div>
-                    {salones
-                    .map((salon) => (
+                    {salones.map((salon) => (
                         <div key={salon.id}>
                             <hr />
                             <h3>{salon.nombre}</h3>
@@ -187,8 +256,8 @@ export default function Salones() {
                                 <li>Dirección: {salon.direccion}</li>
                                 <li>Localidad: {salon.localidad}</li>
                             </ul>
-                            <button onClick={() => handleDeleteSalon(salon.id)}>Eliminar</button>
-                            <button onClick={() => handleEditSalon(salon)}>Editar</button>
+                            <Button variant="danger" onClick={() => handleDeleteSalon(salon.id)}>Eliminar</Button>
+                            <Button variant="warning" className="ms-2" onClick={() => handleEditSalon(salon)}>Editar</Button>
                         </div>
                     ))}
                 </div>
@@ -196,11 +265,12 @@ export default function Salones() {
 
             {salonAEliminar && (
                 <ConfirmarEliminacion
+                    show={showConfirmDialog} 
                     onConfirm={confirmarDeleteSalon}
                     onCancel={cancelarDeleteSalon}
                 />
             )}
-            
+            </Container>
         </>
 
     );
