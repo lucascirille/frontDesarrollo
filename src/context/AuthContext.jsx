@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); 
+    const [userId, setUserId] = useState(null); 
     const [role, setRole] = useState(null); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -17,14 +18,19 @@ export const AuthProvider = ({ children }) => {
         const verificarAutenticacion = async () => {
             const storedUser = localStorage.getItem("user");
             const storedRole = localStorage.getItem("userRole");
+            const storedId = localStorage.getItem("userId");
 
 
             if (storedUser) {
-                setUser(JSON.parse(storedUser)); // Restablecer usuario en el contexto
+                setUser(JSON.parse(storedUser)); 
             }
 
             if (storedRole) {
-                setRole(storedRole); // Restablece el rol en el contexto
+                setRole(storedRole); 
+            }
+
+            if (storedId) {
+                setUserId(parseInt(storedId));
             }
             setLoading(false);
         };
@@ -37,11 +43,14 @@ export const AuthProvider = ({ children }) => {
         setError(null);
         try {
             const userInfo = await login(userData);
+            console.log("estoy en inicio de sesion", userInfo);
 
             localStorage.setItem("user", JSON.stringify(userInfo.userData));
+            localStorage.setItem("userId", userInfo.userData.id);
             localStorage.setItem("userRole", userInfo.userData.rol);
 
             setUser(userInfo.userData); 
+            setUserId(parseInt(userInfo.userData.id));
             setRole(userInfo.userData.rol); 
             return true;
         } catch (error) {
@@ -58,8 +67,10 @@ export const AuthProvider = ({ children }) => {
         try {
             await logout(); 
             setUser(null);
+            setUserId(null);
             setRole(null); 
             localStorage.removeItem("userRole");
+            localStorage.removeItem("userId");
             localStorage.removeItem("user");
         } catch (error) {
             console.error('Error en el logout:', error);
@@ -69,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, role, loading, iniciarSesion, cerrarSesion, error }}>
+        <AuthContext.Provider value={{ user, userId, role, loading, iniciarSesion, cerrarSesion, error }}>
             {children}
         </AuthContext.Provider>
     );

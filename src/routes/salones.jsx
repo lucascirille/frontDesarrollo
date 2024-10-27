@@ -56,6 +56,7 @@ export default function Salones() {
                 setSalones(salones.map(salon => salon.id === salonAEditar.id ? data : salon));
                 setSalonAEditar(null);  
             } else {
+                console.log(data);
                 const response = await createSalon(data);
                 setSalones([...salones, response.data.datos]);
             }

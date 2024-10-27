@@ -14,6 +14,7 @@ export async function getSalones() {
 // POST
 export async function createSalon(nuevoSalon) {
     try {
+        console.log("estoy en crear salon", nuevoSalon);
         const response = await axios.post("https://localhost:7164/api/Salon/crearSalon", nuevoSalon);
         return response;
     } catch (error) {

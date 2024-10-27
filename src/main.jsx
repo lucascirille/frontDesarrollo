@@ -22,6 +22,8 @@ import ProtectedRoute from './routes/components/utils/protectedRoute';
 import Nosotros from './routes/nosotros';
 import Sociales from './routes/sociales';
 import Coorporativos from './routes/coorporativos';
+import Reserva from './routes/reserva';
+import ReservaServicios from './routes/components/reservaServicios';
 
 
 
@@ -72,7 +74,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/reserva",
-        element: <p>Reserva</p>
+        element: <Reserva />
+      },
+      {
+        path: "/reservaServicios",
+        element: <ReservaServicios />
       },
       {
         path: "/contactanos",
