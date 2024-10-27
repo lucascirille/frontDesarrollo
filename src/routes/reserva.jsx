@@ -6,11 +6,14 @@ import * as yup from 'yup';
 import anime from 'animejs';
 import '../styles/reserva.css';
 import { getSalones } from '../helpers/salones/salonesService';
-import { createReserva } from '../helpers/reserva/reservaService';
+import { createReserva, getFechasOcupadas } from '../helpers/reserva/reservaService';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
+import { parseISO, startOfDay } from 'date-fns';
 
-const schema = yup.object().shape({
+const initialSchema = yup.object().shape({
   titulo: yup.string().required("El nombre es obligatorio"),
   fecha: yup.date().required("La fecha es obligatoria").min(new Date(), "La fecha no puede ser en el pasado"),
   franjaHoraria: yup.string().required("El nombre es obligatorio"),
@@ -27,11 +30,17 @@ export default function Reserva() {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [fechasOcupadas, setFechasOcupadas] = useState([]);
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+  const [salonSeleccionado, setSalonSeleccionado] = useState('');
+  const [franjaHorariaSeleccionada, setFranjaHorariaSeleccionada] = useState('');
+  const [schema, setSchema] = useState(initialSchema); 
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
     reset
   } = useForm({
     resolver: yupResolver(schema),
@@ -40,8 +49,8 @@ export default function Reserva() {
   const onSubmit = async (data) => {
 
     const idDelSalon = Number(data.salonId);
-    console.log("data", data.fecha);
-    const formattedDate = data.fecha.toISOString().split('T')[0];
+    console.log(fechaSeleccionada);
+    const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
     console.log("data formateada", formattedDate);
 
     const reservacionData = { ...data, fecha: formattedDate, salonId: idDelSalon, usuarioId: userId };
@@ -84,6 +93,62 @@ export default function Reserva() {
     ObtenerSalones();
   }, []);
 
+  useEffect(() => {
+    if (salonSeleccionado) {
+      const salon = salones.find(salon => salon.id === parseInt(salonSeleccionado));
+      if (salon) {
+        const capacidad = salon.capacidad;
+
+        const cantidadPersonasSchema = yup
+        .number()
+        .positive()
+        .integer()
+        .required("La cantidad de personas es obligatoria")
+        .min(20, "Mínimo se requieren 20 invitados")
+        .max(capacidad, `La capacidad máxima del salón es ${capacidad} personas`);
+
+        const updatedSchema = initialSchema.concat(
+          yup.object().shape({
+            cantidadPersonas: cantidadPersonasSchema,
+          })
+        );
+
+        setSchema(updatedSchema);
+      }
+    }
+  }, [salonSeleccionado, salones]);
+
+  useEffect(() => {
+    if (salonSeleccionado && franjaHorariaSeleccionada) {
+      async function obtenerFechasOcupadas() {
+        try {
+          const response = await getFechasOcupadas(parseInt(salonSeleccionado), franjaHorariaSeleccionada);
+          console.log("Esta es mi respuesta" , response.data.datos);
+
+          if (response.data.datos && response.data.datos.length > 0) {
+
+            const fechas = response.data.datos.map(fecha => startOfDay(parseISO(fecha)));
+
+            setFechasOcupadas(fechas);
+            console.log("Esta es mi nueva respuesta", fechas);
+          } else {
+            console.warn("No hay fechas ocupadas para este salón.");
+            setFechasOcupadas([]);
+          }
+
+        } catch (error) {
+          console.error("Error al obtener las fechas ocupadas:", error);
+        }
+      }
+      obtenerFechasOcupadas();
+    }
+  }, [salonSeleccionado, franjaHorariaSeleccionada]);
+
+  //para desabilitar las fechas
+  const isDayDisabled = (date) => {
+    return fechasOcupadas.some((fecha) => new Date(fecha).toDateString() === date.toDateString());
+  };
+
   const handleConfirmarReserva = () => {
     navigate('/'); 
   };
@@ -91,6 +156,10 @@ export default function Reserva() {
   const handleAgregarServicios = () => {
     navigate('/reservaServicios');
   };
+
+
+  const fechaLimite = new Date();
+  fechaLimite.setMonth(fechaLimite.getMonth() + 2);
 
   return (
     <>
@@ -115,14 +184,21 @@ export default function Reserva() {
                   isInvalid={!!errors.titulo}
                 />
               </Form.Group>
-              
-              <Form.Group controlId="fecha" className="mb-3">
-                <Form.Label>Fecha del Evento</Form.Label>
-                <Form.Control
-                  type="date"
-                  {...register("fecha")}
-                  isInvalid={!!errors.fecha}
-                />
+
+              <Form.Group controlId="salonId" className="mb-3">
+                <Form.Label>Salón</Form.Label>
+                <Form.Select
+                  {...register("salonId")}
+                  isInvalid={!!errors.salonId}
+                  onChange={(e) => setSalonSeleccionado(e.target.value)}
+                >
+                  <option value="">Selecciona un salón</option>
+                  {salones.map((salon) => (
+                    <option key={salon.id} value={salon.id}>
+                      {salon.nombre} 
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
 
               <Form.Group controlId="franjaHoraria" className="mb-3">
@@ -130,12 +206,27 @@ export default function Reserva() {
                 <Form.Select
                     {...register("franjaHoraria")}
                     isInvalid={!!errors.franjaHoraria}
+                    onChange={(e) => setFranjaHorariaSeleccionada(e.target.value)}
                     >
                     <option value="">Selecciona una franja horaria</option>
                     <option value="Mediodia">Mediodía</option>
                     <option value="Tarde">Tarde</option>
                     <option value="Noche">Noche</option>
                 </Form.Select>
+              </Form.Group>
+              
+              <Form.Group controlId="fecha" className="mb-3">
+                <Form.Label>Fecha del Evento</Form.Label>
+                <DatePicker
+                  selected={fechaSeleccionada}
+                  onChange={(date) => {setFechaSeleccionada(date); setValue("fecha", date);}}
+                  filterDate={(date) => !isDayDisabled(date)}
+                  minDate={new Date()}
+                  maxDate={fechaLimite}
+                  dateFormat="dd/MM/yyyy"
+                  className="form-control"
+                />
+                {errors.fecha && <div className="invalid-feedback d-block">{errors.fecha.message}</div>}
               </Form.Group>
 
               <Form.Group controlId="horaExtra" className="mb-3">
@@ -154,21 +245,11 @@ export default function Reserva() {
                   {...register("cantidadPersonas")}
                   isInvalid={!!errors.cantidadPersonas}
                 />
-              </Form.Group>
-
-              <Form.Group controlId="salonId" className="mb-3">
-                <Form.Label>Salón</Form.Label>
-                <Form.Select
-                  {...register("salonId")}
-                  isInvalid={!!errors.salonId}
-                >
-                  <option value="">Selecciona un salón</option>
-                  {salones.map((salon) => (
-                    <option key={salon.id} value={salon.id}>
-                      {salon.nombre} 
-                    </option>
-                  ))}
-                </Form.Select>
+                {errors.cantidadPersonas && (
+                  <div className="invalid-feedback d-block">
+                    {errors.cantidadPersonas.message}
+                  </div>
+                )}
               </Form.Group>
 
               <Button variant="primary" type="submit" className="w-100">

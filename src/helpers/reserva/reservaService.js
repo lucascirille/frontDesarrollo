@@ -12,3 +12,23 @@ export async function createReserva(nuevaReserva) {
         throw new Error(error.response?.data?.mensaje || "Error desconocido");
     }
 };
+
+// GET
+export async function getFechasOcupadas(salonId, franjaHoraria) {
+    try {
+        const response = await axios.get(`https://localhost:7164/api/Reserva/fechasOcupadas`, {
+            params: {
+                salonId,
+                franjaHoraria
+            }
+        });
+        return response;
+    } catch (error) {
+        if (error.response?.status === 404) {
+            console.warn("No se encontraron reservas para el salón y franja horaria especificados.");
+            return [];
+        }
+        console.error("Error al obtener las fechas ocupadas:", error);
+        throw new Error(error.response?.data?.mensaje || "Error desconocido al obtener fechas ocupadas");
+    }
+}
