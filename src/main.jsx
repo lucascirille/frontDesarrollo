@@ -74,11 +74,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/reserva",
-        element: <Reserva />
+        element: <ProtectedRoute allowedRoles={['Admin', 'Cliente']}> <Reserva /></ProtectedRoute>
       },
       {
         path: "/reservaServicios",
-        element: <ReservaServicios />
+        element: <ProtectedRoute allowedRoles={['Admin', 'Cliente']}><ReservaServicios /></ProtectedRoute> 
       },
       {
         path: "/contactanos",
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/logout",
-        element: <LogoutForm />
+        element:<ProtectedRoute allowedRoles={['Admin', 'Cliente']}> <LogoutForm /></ProtectedRoute>
       },
       {
         path: "/register",

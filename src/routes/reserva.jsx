@@ -133,11 +133,15 @@ export default function Reserva() {
             console.log("Esta es mi nueva respuesta", fechas);
           } else {
             console.warn("No hay fechas ocupadas para este salón.");
-            setFechasOcupadas([]);
+            setFechasOcupadas(fechas);
+            console.log("estoy en el else", fechasOcupadas)
+            
           }
 
         } catch (error) {
           console.error("Error al obtener las fechas ocupadas:", error);
+          setFechasOcupadas([]);
+          console.log("Este es mi array vacio", fechasOcupadas)
         }
       }
       obtenerFechasOcupadas();
