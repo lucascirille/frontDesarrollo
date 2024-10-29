@@ -4,6 +4,7 @@ import '../styles/coorporativos.css';
 import imagenes from '../helpers/reserva/imagenes';
 
 export default function Coorporativos() {
+    const [reservasOriginales, setReservasOriginales] = useState([]);
     const [reservas, setReservas] = useState([]);
     const [error, setError] = useState('');
 
@@ -27,6 +28,7 @@ export default function Coorporativos() {
                 });
 
                 console.log("Estas son las reservas filtradas", reservasFiltradas);
+                setReservasOriginales(reservasFiltradas);
                 setReservas(reservasFiltradas);
             } catch (err) {
                 setError(err.message);
@@ -40,6 +42,38 @@ export default function Coorporativos() {
         return imagenes[indiceAleatorio];
     };
 
+    const mostrarEventosProximos = () => {
+        setReservas(reservasOriginales);
+    };
+
+    const mostrarEventosEstaSemana = () => {
+        const hoy = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+        const finDeSemana = new Date(hoy);
+        finDeSemana.setUTCDate(hoy.getUTCDate() + (7 - hoy.getUTCDay()));
+
+        const reservasSemana = reservasOriginales.filter(reserva => {
+            const [fecha, hora] = reserva.fecha.split(" ");
+            const [dia, mes, año] = fecha.split("/");
+            const fechaReserva = new Date(Date.UTC(año, mes - 1, dia));
+            return fechaReserva >= hoy && fechaReserva <= finDeSemana;
+        });
+        setReservas(reservasSemana);
+    };
+
+    const mostrarEventosEsteMes = () => {
+        const hoy = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+        const inicioMes = new Date(Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth(), 1));
+        const finMes = new Date(Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth() + 1, 0));
+
+        const reservasMes = reservasOriginales.filter(reserva => {
+            const [fecha, hora] = reserva.fecha.split(" ");
+            const [dia, mes, año] = fecha.split("/");
+            const fechaReserva = new Date(Date.UTC(año, mes - 1, dia));
+            return fechaReserva >= inicioMes && fechaReserva <= finMes;
+        });
+        setReservas(reservasMes);
+    };
+
     return(
         <>
             <div id="home" className="coorporativos-container">
@@ -50,6 +84,12 @@ export default function Coorporativos() {
             <h3>Todos los eventos corporativos</h3>
 
             {error && <p className="text-danger">{error}</p>}
+
+            <div className="d-flex justify-content-center my-3">
+                <button className="btn btn-primary mx-2" onClick={mostrarEventosProximos}>Próximos</button>
+                <button className="btn btn-primary mx-2" onClick={mostrarEventosEsteMes}>Este mes</button>
+                <button className="btn btn-primary mx-2" onClick={mostrarEventosEstaSemana}>Esta semana</button>
+            </div>
 
             <div className="container mt-4">
                 <div className="row">
