@@ -86,7 +86,6 @@ export default function LayoutCliente({ children }) {
       <div style={{  paddingTop: '70px', width: '100%', height: '100vh' }}>
         {children}
       </div>
-
     </>
   );
 }

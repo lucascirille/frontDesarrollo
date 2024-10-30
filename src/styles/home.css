@@ -1,7 +1,7 @@
 *{
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Incluye el padding y el border en el tamaño total */
+  box-sizing: border-box;
   max-width: 100%;
 }
 
@@ -9,7 +9,7 @@
   background-image: url('/images/paisaje1.jpg');
   background-size: cover;
   background-position: center;
-  height: 100vh; /* Ocupa toda la pantalla */
+  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -18,17 +18,168 @@
   text-align: center;
   color: white;
 }
+
 .home-container h1 {
-  font-size: 6rem;  /* Tamaño de letra más grande */
-  font-family: 'Georgia', serif;  /* Fuente formal */
-  font-weight: 600;  /* Hace que la letra sea más gruesa pero elegante */
+  font-size: 6rem;  
+  font-family: 'Georgia', serif;  
+  font-weight: 600;  
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 .home-container p {
   font-size: 1rem;
-  font-family: 'Georgia', serif;  /* Fuente formal */
-  font-weight: 600;  /* Hace que la letra sea más gruesa pero elegante */
+  font-family: 'Georgia', serif; 
+  font-weight: 600;  
   margin-bottom: 20px;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
+
+.container1 {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+  margin-top: 5%;
+}
+
+.background-image {
+  background-image: url('/images/paisaje7.jpg'); 
+  background-size: cover;
+  background-position: center;
+  border-radius: 3em;
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 50vw;
+  height: 50vh;
+  text-align: center;
+  color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-box h2 {
+  font-size: 1.2rem;
+  color: #888;
+  margin: 0;
+  font-weight: 400;
+}
+
+.content-box h1 {
+  font-size: 2.5rem;
+  color: #4CAF50; 
+  margin: 0.5rem 0;
+  font-weight: 700;
+}
+
+.content-box p {
+  font-size: 1rem;
+  color: #555;
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.info-button {
+  padding: 5px 15px;
+  font-size: 0.9rem;
+  color: #333;
+  border: 2px solid #333;
+  background: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.info-button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.carousel-container {
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0; 
+  min-height: 500px;
+}
+
+.carousel-container img {
+  max-height: 500px;
+  object-fit: cover;
+}
+
+.container2 {
+  background-image: url('/images/paisaje8.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  margin-top: 5%;
+}
+
+.container2 h2{
+  color: #333;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.image-buttons-container {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 5%;
+}
+
+.image-container {
+  position: relative; 
+  flex: 1; 
+  margin: 0 10px; 
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover {
+  transform: scale(1.05); 
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px; 
+  display: block;
+}
+
+.image-button {
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  background-color: rgba(255, 255, 255, 0.8); 
+  border: none; 
+  border-radius: 20px; 
+  padding: 10px 20px; 
+  color: #333; 
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; 
+}
+
+.image-button:hover {
+  background-color: #e0e0e0;
+}
+
+
 
