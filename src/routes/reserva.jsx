@@ -64,10 +64,10 @@ export default function Reserva() {
         setShowModal(true);
     } catch (error) {
         console.error("Error al crear la reserva:", error);
-        setError(error.message || "Error desconocido. Intenta nuevamente.");
+        setError(error.message);
     }
 
-    setShowModal(true);
+    
   };
 
   useEffect(() => {
@@ -187,6 +187,7 @@ export default function Reserva() {
                   {...register("titulo")}
                   isInvalid={!!errors.titulo}
                 />
+                {error && <div className="invalid-feedback d-block">{error}</div>}
               </Form.Group>
 
               <Form.Group controlId="salonId" className="mb-3">
