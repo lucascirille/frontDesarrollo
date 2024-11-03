@@ -9,7 +9,7 @@ export default function SalonInfo() {
     const { id } = useParams();
     const [caracteristicas, setCaracteristicas] = useState([]);
     const [servicios, setServicios] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         async function ObtenerCaracteristicas(id) {
@@ -21,7 +21,7 @@ export default function SalonInfo() {
                     console.log("No hay características disponibles para este salón.");
                 }
             } catch (error) {
-                console.error("Error al obtener los salones:", error);
+                console.error("Error al obtener las caracteristicas:", error);
                 setError("Error al obtener los datos.");
             }
         }
@@ -38,7 +38,7 @@ export default function SalonInfo() {
                     console.log("No hay servicios disponibles para este salón.");
                 }
             } catch (error) {
-                console.error("Error al obtener los salones:", error);
+                console.error("Error al obtener los servicios:", error);
                 setError("Error al obtener los datos.");
             }
         }

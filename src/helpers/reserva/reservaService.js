@@ -54,3 +54,15 @@ export async function GetReservasDeSalonesCorporativos() {
         throw new Error(error.response?.data?.mensaje);
     }
 }
+
+//GET
+export async function GetReservaIdByReservaNombre(nombreReserva) {
+    try {
+        const encodedNombreReserva = encodeURIComponent(nombreReserva);
+        const response = await axios.get(`https://localhost:7164/api/Reserva/obtenerReservaId?nombreReserva=${encodedNombreReserva}`);
+        return response;
+    } catch (error) {
+        console.log(error.response);
+        throw new Error(error.response?.data?.mensaje);
+    }
+}

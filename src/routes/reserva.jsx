@@ -35,13 +35,19 @@ export default function Reserva() {
   const [salonSeleccionado, setSalonSeleccionado] = useState('');
   const [franjaHorariaSeleccionada, setFranjaHorariaSeleccionada] = useState('');
   const [schema, setSchema] = useState(initialSchema); 
+  const [precioSalon, setPrecioSalon] = useState(0);
+  const [precioHoraExtra, setPrecioHoraExtra] = useState(0); 
+  const [presupuestoTotal, setPresupuestoTotal] = useState(0);
+  const [nombreReserva, setNombreReserva] = useState('');
+
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    reset
+    reset,
+    watch
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -62,6 +68,7 @@ export default function Reserva() {
         reset();
         setError("");
         setShowModal(true);
+        setNombreReserva(data.titulo);
     } catch (error) {
         console.error("Error al crear la reserva:", error);
         setError(error.message);
@@ -114,9 +121,17 @@ export default function Reserva() {
         );
 
         setSchema(updatedSchema);
+        setPrecioSalon(salon.precioBase);
+        setPrecioHoraExtra(salon.precioHora);
       }
     }
   }, [salonSeleccionado, salones]);
+
+  useEffect(() => {
+    const total = precioSalon + (watch('horaExtra') ? precioHoraExtra : 0);
+    setPresupuestoTotal(total);
+  }, [precioSalon, watch('horaExtra')]);
+  
 
   useEffect(() => {
     if (salonSeleccionado && franjaHorariaSeleccionada) {
@@ -158,12 +173,19 @@ export default function Reserva() {
   };
 
   const handleAgregarServicios = () => {
-    navigate('/reservaServicios');
+    const idDelSalon = parseInt(salonSeleccionado);
+
+    navigate('/reservaServicios',
+    {
+      state: { salonId: idDelSalon, nombreReserva }
+    });
   };
 
 
   const fechaLimite = new Date();
   fechaLimite.setMonth(fechaLimite.getMonth() + 2);
+
+ 
 
   return (
     <>
@@ -206,6 +228,14 @@ export default function Reserva() {
                 </Form.Select>
               </Form.Group>
 
+              <hr />
+
+              <div>
+              <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRECIO SALON: ${precioSalon} </p>
+              </div>
+
+              <hr />
+
               <Form.Group controlId="franjaHoraria" className="mb-3">
                 <Form.Label>Franja Horaria</Form.Label>
                 <Form.Select
@@ -239,8 +269,17 @@ export default function Reserva() {
                     type="checkbox"
                     label="Agregar hora extra"
                     {...register("horaExtra")}
+                    
                 />
                 </Form.Group>
+
+                <hr />
+
+              <div>
+                <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRECIO HORA EXTRA: ${precioHoraExtra} </p>
+              </div>
+
+              <hr />
 
               <Form.Group controlId="cantidadPersonas" className="mb-3">
                 <Form.Label>Cantidad de Personas</Form.Label>
@@ -257,6 +296,12 @@ export default function Reserva() {
                 )}
               </Form.Group>
 
+              <hr />
+
+              <div>
+              <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRESUPUESTO TOTAL: ${presupuestoTotal} </p>
+              </div>
+
               <Button variant="primary" type="submit" className="w-100">
                 Continuar
               </Button>
@@ -270,6 +315,8 @@ export default function Reserva() {
         </Row>
       </Container>
 
+      
+
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmar Reserva</Modal.Title>
@@ -278,11 +325,11 @@ export default function Reserva() {
           <p>¿Deseas confirmar esta reserva o agregar servicios adicionales?</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleAgregarServicios}>
-            Agregar Servicios
-          </Button>
           <Button variant="primary" onClick={handleConfirmarReserva}>
             Confirmar Reserva
+          </Button>
+          <Button variant="secondary" onClick={handleAgregarServicios}>
+            Agregar Servicios
           </Button>
         </Modal.Footer>
       </Modal>
