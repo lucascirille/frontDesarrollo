@@ -68,9 +68,6 @@ export default function LayoutCliente({ children }) {
                     <Link className="nav-link" to={"/reserva"}>Reserva</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/contactanos"}>Contactanos</Link>
-                  </li>
-                  <li className="nav-item">
                     <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/logout"}>Cerrar Sesión</Link>
                   </li>
                 </>

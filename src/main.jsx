@@ -24,6 +24,13 @@ import Sociales from './routes/sociales';
 import Coorporativos from './routes/coorporativos';
 import Reserva from './routes/reserva';
 import ReservaServicios from './routes/components/reservaServicios';
+import Caracteristicas from './routes/caracteristicas';
+import Servicios from './routes/servicios';
+import SalonCaracteristicas from './routes/salonCaracteristicas';
+import SalonServicios from './routes/salonServicios';
+import ReservaAdmin from './routes/reservaAdmin';
+import ReservaServiciosAdmin from './routes/reservaServiciosAdmin';
+import Usuarios from './routes/usuarios';
 
 
 
@@ -55,6 +62,34 @@ const router = createBrowserRouter([
       {
         path: "/salones",
         element:<ProtectedRoute allowedRoles={['Admin']}> <Salones /> </ProtectedRoute>
+      },
+      {
+        path: "/caracteristicas",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <Caracteristicas /> </ProtectedRoute>
+      },
+      {
+        path: "/servicios",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <Servicios /> </ProtectedRoute>
+      },
+      {
+        path: "/salonCaracteristicas",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <SalonCaracteristicas /> </ProtectedRoute>
+      },
+      {
+        path: "/salonServicios",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <SalonServicios /> </ProtectedRoute>
+      },
+      {
+        path: "/reservaAdmin",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <ReservaAdmin /> </ProtectedRoute>
+      },
+      {
+        path: "/reservaServiciosAdmin",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <ReservaServiciosAdmin /> </ProtectedRoute>
+      },
+      {
+        path: "/usuarios",
+        element:<ProtectedRoute allowedRoles={['Admin']}> <Usuarios /> </ProtectedRoute>
       },
       {
         path: "/salonesCliente",

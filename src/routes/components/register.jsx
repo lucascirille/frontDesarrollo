@@ -12,6 +12,7 @@ const RegisterForm = () => {
         register,
         handleSubmit,
         formState: { errors },
+        setError,
     } = useForm({
         resolver: yupResolver(registerSchema),
     });
@@ -22,6 +23,7 @@ const RegisterForm = () => {
             navigate('/login'); 
         } catch (error) {
             console.error('Error al registrar:', error);
+            setError('nombreUsuario', { message: 'El nombre de usuario ya está en uso' });
         }
     };
 
@@ -99,10 +101,12 @@ const RegisterForm = () => {
                 {errors.claveConfirmada && <p className="text-danger">{errors.claveConfirmada.message}</p>}
             </div>
 
-            <button type="submit" className="btn btn-primary">Registrarse</button>
-            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
-                Cancelar
-            </button>
+            <div className="d-flex gap-2">
+                <button type="submit" className="btn btn-primary">Registrarse</button>
+                <button type="button" className="btn btn-primary" onClick={handleCancel}>
+                    Cancelar
+                </button>
+            </div>
             </form>
         </div>
     );

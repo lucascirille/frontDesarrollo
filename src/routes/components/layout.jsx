@@ -45,17 +45,28 @@ export default function Layout({ children }) {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={"/perfil"}>Perfil</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/nosotros"}>Nosotros</Link>
-              </li>
-              <li className="nav-item">
                 <Link className="nav-link" to={"/salones"}>Salones</Link>
               </li>
-              
               <li className="nav-item">
-                <Link className="nav-link" to={"/reserva"}>Reserva</Link>
+                <Link className="nav-link" to={"/caracteristicas"}>Caracteristicas</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/servicios"}>Servicios</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/salonCaracteristicas"}>Salon-Caracteristicas</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/salonServicios"}>Salon-Servicios</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/reservaAdmin"}>Reservas</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/reservaServiciosAdmin"}>Reserva-Servicios</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/usuarios"}>Usuarios</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link border border-primary rounded btn btn-outline-primary" to={"/logout"}>Cerrar Sesión</Link>

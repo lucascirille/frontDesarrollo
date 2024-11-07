@@ -6,20 +6,22 @@ import { getSalones,createSalon,deleteSalon,updateSalon } from "../helpers/salon
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import '../styles/salonesForm.css'
+import '../styles/errors.css'
 
 const schema = yup.object({
-    nombre: yup.string().required(),
-    tipo: yup.string().required(),
+    nombre: yup.string().required("Este campo es obligatorio"),
+    tipo: yup.string().required("Este campo es obligatorio"),
     estado: yup.boolean().required(),
     telefono: yup.string()
-    .required()
-    .matches(/^\+?[0-9\s-]{10,15}$/),
-    capacidad: yup.number().positive().integer().required(),
-    dimensionesMt2: yup.number().positive().required(),
-    precioBase: yup.number().positive().required(),
-    precioHora: yup.number().positive().required(),
-    direccion: yup.string().required(),
-    localidad: yup.string().required(),
+    .required("Este campo es obligatorio")
+    .matches(/^\+?[0-9\s-]{10,15}$/, "Formato de teléfono no válido"),
+    capacidad: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().integer().required("Este campo es obligatorio"),
+    dimensionesMt2: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
+    precioBase: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
+    precioHora: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
+    direccion: yup.string().required("Este campo es obligatorio"),
+    localidad: yup.string().required("Este campo es obligatorio"),
+    urlImagen: yup.string().required("Este campo es obligatorio"),
   }).required();
 
 export default function Salones() {
@@ -31,7 +33,7 @@ export default function Salones() {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [showSalones, setShowSalones] = useState(true);
     const [formVisible, setFormVisible] = useState(false);
-    const { register, handleSubmit, reset, setValue } = useForm({
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       }); 
 
@@ -106,6 +108,9 @@ export default function Salones() {
     return (
         <>
             <Container>
+                <h1>SALONES</h1>
+                <hr/>
+                <br/>
                 {showSalones && !formVisible && !salonAEditar && (
                     <Button variant="success" className="mb-3" onClick={() => setFormVisible(true)}>
                         Crear Salón
@@ -127,17 +132,23 @@ export default function Salones() {
                                         placeholder="Nombre del salón"
                                         {...register("nombre")}
                                     />
+                                    {errors.nombre && <p className="error-message">{errors.nombre.message}</p>}
                                 </Form.Group>
                             </Col>
                             <Col>
-                                <Form.Group controlId="tipo">
-                                    <Form.Label>Tipo de Salón</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Tipo del salón"
-                                        {...register("tipo")}
-                                    />
-                                </Form.Group>
+                            <Form.Group controlId="tipo">
+                                <Form.Label>Tipo de Salón</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    {...register("tipo")}
+                                >
+                                <option value="">Selecciona el tipo de salón</option>
+                                <option value="Social">Social</option>
+                                <option value="Corporativo">Corporativo</option>
+                                </Form.Control>
+                                {errors.tipo && <p className="error-message">{errors.tipo.message}</p>}
+                            </Form.Group>
+
                             </Col>
                         </Row>
 
@@ -158,6 +169,7 @@ export default function Salones() {
                                         placeholder="Teléfono"
                                         {...register("telefono")}
                                     />
+                                    {errors.telefono && <p className="error-message">{errors.telefono.message}</p>}
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -168,6 +180,7 @@ export default function Salones() {
                                         placeholder="Capacidad"
                                         {...register("capacidad")}
                                     />
+                                    {errors.capacidad && <p className="error-message">{errors.capacidad.message}</p>}
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -182,6 +195,7 @@ export default function Salones() {
                                         placeholder="Dimensiones en m²"
                                         {...register("dimensionesMt2")}
                                     />
+                                    {errors.dimensionesMt2 && <p className="error-message">{errors.dimensionesMt2.message}</p>}
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -193,6 +207,7 @@ export default function Salones() {
                                         placeholder="Precio Base"
                                         {...register("precioBase")}
                                     />
+                                    {errors.precioBase && <p className="error-message">{errors.precioBase.message}</p>}
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -207,6 +222,7 @@ export default function Salones() {
                                         placeholder="Precio por Hora"
                                         {...register("precioHora")}
                                     />
+                                    {errors.precioHora && <p className="error-message">{errors.precioHora.message}</p>}
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -217,18 +233,36 @@ export default function Salones() {
                                         placeholder="Dirección"
                                         {...register("direccion")}
                                     />
+                                    {errors.direccion && <p className="error-message">{errors.direccion.message}</p>}
                                 </Form.Group>
                             </Col>
                         </Row>
 
-                        <Form.Group controlId="localidad" className="mb-3">
-                            <Form.Label>Localidad</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Localidad"
-                                {...register("localidad")}
-                            />
-                        </Form.Group>
+                        <Row className="mb-3">
+                            <Col>
+                                <Form.Group controlId="localidad" className="mb-3">
+                                    <Form.Label>Localidad</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Localidad"
+                                        {...register("localidad")}
+                                    />
+                                    {errors.localidad && <p className="error-message">{errors.localidad.message}</p>}
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="urlImagen">
+                                    <Form.Label>Url de la imagen</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Url de la imagen"
+                                        {...register("urlImagen")}
+                                    />
+                                    {errors.urlImagen && <p className="error-message">{errors.urlImagen.message}</p>}
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        
 
                         <Button variant="primary" type="submit">
                             Guardar Salón

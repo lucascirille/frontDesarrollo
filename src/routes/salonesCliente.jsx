@@ -22,8 +22,8 @@ export default function SalonesCliente() {
         ObtenerSalones(); 
     }, []);
 
-    const handleMoreInfo = (id) => {
-        navigate(`/salon/${id}`);
+    const handleMoreInfo = (salon) => {
+        navigate(`/salon/${salon.id}`, { state: { salon } });
     };
 
     return(
@@ -39,18 +39,10 @@ export default function SalonesCliente() {
                 .map((salon) => (
                     <div key={salon.id} className="col-md-4 mb-4">
                         <div className="card shadow" style={{ width: "100%" }}>
-                            <img src="/images/hotel-exterior-night.jpg" className="card-img-top" alt={`Image for ${salon.nombre}`} />
+                            <img src={salon.urlImagen} className="card-img-top" alt={`Image for ${salon.nombre}`} />
                             <div className="card-body">
                                 <h5 className="card-title">{salon.nombre}</h5>
-                                <p className="card-text">Tipo: {salon.tipo}</p>
-                                <p className="card-text">Telefono: {salon.telefono}</p>
-                                <p className="card-text">Capacidad: {salon.capacidad}</p>
-                                <p className="card-text">Dimensiones MT2: {salon.dimensionesMt2}</p>
-                                <p className="card-text">Precio Base: {salon.precioBase}</p>
-                                <p className="card-text">Precio Hora: {salon.precioHora}</p>
-                                <p className="card-text">Direccion: {salon.direccion}</p>
-                                <p className="card-text">Localidad: {salon.localidad}</p>
-                                <a className="btn btn-primary" onClick={() => handleMoreInfo(salon.id)} >Más Informacion</a>
+                                <a className="btn btn-primary" onClick={() => handleMoreInfo(salon)} >Más Informacion</a>
                             </div>
                         </div>
                     </div>

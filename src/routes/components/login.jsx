@@ -57,10 +57,12 @@ const LoginForm = () => {
 
         {error && <p className="text-danger">{error}</p>}
 
-        <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
-        <button type="button" className="btn btn-secondary" onClick={handleRegister}>
-          Registrate
-        </button>
+        <div className="d-flex gap-2">
+          <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
+          <button type="button" className="btn btn-primary" onClick={handleRegister}>
+            Registrate
+          </button>
+        </div>
       </form>
     </div>
   );

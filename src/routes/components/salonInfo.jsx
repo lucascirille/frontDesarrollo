@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { getCaracteristicasBySalonId, getServiciosBySalonId } from '../../helpers/salones/salonesService';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, Row, Col, Container } from 'react-bootstrap';
 import '../../styles/salonInfo.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -10,6 +10,8 @@ export default function SalonInfo() {
     const [caracteristicas, setCaracteristicas] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [error, setError] = useState('');
+    const location = useLocation();
+    const { salon } = location.state;
 
     useEffect(() => {
         async function ObtenerCaracteristicas(id) {
@@ -47,6 +49,24 @@ export default function SalonInfo() {
 
     return (
         <>
+            <div className="salon-info-background p-4 mb-4">
+                <Container className="mb-4">
+                    <Row className="mb-4 justify-content-start">
+
+                        <Col md={4} >
+                            <h2 className="text-primary">{salon.nombre}</h2>
+                            <p><i className="fas fa-users"></i> <strong>Capacidad:</strong> {salon.capacidad} personas</p>
+                            <p><i className="fas fa-ruler-combined"></i> <strong>Dimensiones:</strong> {salon.dimensionesMt2} m²</p>
+                        </Col>
+                        <Col md={4} className="text-start mt-3">
+                            <p className="text-muted">Teléfono: {salon.telefono}</p>
+                            <p className="text-muted">Dirección: {salon.direccion}</p>
+                            <p className="text-muted">Localidad: {salon.localidad}</p>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+
             <h3 className="mb-4">Características</h3>
             {caracteristicas.length > 0 ? (
                 <Row>

@@ -5,7 +5,7 @@
     max-width: 100%;
   }
   
-  .nosotros-container {
+  .about-container {
     background-image: url('/images/paisaje3.jpg');
     background-size: cover;
     background-position: center;
@@ -17,11 +17,95 @@
     align-items: center;
     text-align: center;
     color: white;
+    padding-bottom: 50px;
   }
-  .nosotros-container h1 {
+  .about-container h1 {
     font-size: 6rem;  /* Tamaño de letra más grande */
     font-family: 'Georgia', serif;  /* Fuente formal */
     font-weight: 600;  /* Hace que la letra sea más gruesa pero elegante */
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   }
+
+  .about-container p {
+    font-size: 1rem;
+    font-family: 'Georgia', serif; 
+    font-weight: 600;  
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra todo el contenido verticalmente */
+    align-items: center; /* Centra todo el contenido horizontalmente */
+    gap: 50px; /* Espacio entre las secciones */
+    padding: 20px; /* Añadir algo de espacio alrededor */
+  }
+
+  .section1-container {
+    display: flex;
+    flex-direction: column; /* Asegura que el título y el párrafo estén en columna */
+    align-items: center; /* Centra los elementos dentro del contenedor */
+    justify-content: center;
+    gap: 20px; /* Espacio entre el título y el párrafo */
+    max-width: 1200px; /* Limita el ancho máximo */
+    width: 100%;
+    margin-top: 50px; /* Espacio respecto a la imagen del header */
+  }
+  
+  .section2-container .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #34495E;
+    text-align: center; /* Centra el título */
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #34495E;
+    text-align: center; /* Centra el título */
+  }
+  
+  .section-description {
+    font-size: 1.1rem;
+    color: #7F8C8D;
+    line-height: 1.6;
+    text-align: center; /* Centra el texto */
+  }
+
+  .background-image {
+    background-image: url('/images/paisaje9.jpg'); 
+    background-size: cover;
+    background-position: center;
+    border-radius: 3em;
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    margin-top: 20px;
+  }
+  
+  .content-box {
+    background-color:  #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 50vw;
+    height: 50vh;
+    text-align: center;
+    color: #333;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; 
+    top: 90%; 
+    transform: translateY(-50%);
+  }
+
+  .video-container {
+    margin-top: 30%;
+  }
+
   
