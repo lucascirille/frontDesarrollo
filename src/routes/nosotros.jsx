@@ -2,6 +2,9 @@ import React from 'react';
 import '../styles/nosotros.css';
 import anime from 'animejs';
 import { useEffect, useRef } from 'react';
+import Footer from './components/footer';
+import { Container, Row, Col } from 'react-bootstrap';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function Nosotros() {
     const contentBox = useRef(null);
@@ -47,7 +50,7 @@ export default function Nosotros() {
             </div>
 
             <div className="about-content">
-                <div className="section1-container">
+                <div className="section-container">
                     <h2 className="section-title">¿Quiénes somos?</h2>
                     <p className="section-description">
                         En EventCraft nos especializamos en ofrecer espacios de calidad para todo tipo de eventos.
@@ -57,8 +60,8 @@ export default function Nosotros() {
                 </div>
 
                 <div className="section2-container">
-                    <div className="background-image">
-                        <div ref={contentBox} className="content-box">
+                    <div className="backgroundN-image">
+                        <div ref={contentBox} className="contentN-box">
                             <h2 className="section-title">Nuestra Misión</h2>
                             <p className="section-description">
                                 Nuestra misión es brindarte un lugar excepcional para que puedas crear recuerdos inolvidables
@@ -69,33 +72,58 @@ export default function Nosotros() {
                     </div>
                 </div>
 
-                <div className="video-container">
-                    <video controls width="100%" className="video-player">
-                        <source src="/videos/video1.mp4" type="video/mp4" />
-                        Tu navegador no soporta el formato de video.
-                    </video>
-                </div>
-
                 <div className="section3-container">
                     <h2 className="section-title">Nuestros Valores</h2>
-                    <ul className="values-list">
-                        <li>Calidez y Personalización</li>
-                        <li>Excelencia en el servicio</li>
-                        <li>Innovación y Tecnología</li>
-                        <li>Compromiso con la experiencia del cliente</li>
-                    </ul>
+                    <Container>
+                        <Row className="values-row">
+                            <Col xs={12} md={6} lg={3} className="value-item">
+                                <div className="value-box value-color-1">
+                                    <h3 className="value-title">Calidez y Personalización</h3>
+                                </div>
+                            </Col>
+                            <Col xs={12} md={6} lg={3} className="value-item">
+                                <div className="value-box value-color-2">
+                                    <h3 className="value-title">Excelencia en el servicio</h3>
+                                </div>
+                            </Col>
+                            <Col xs={12} md={6} lg={3} className="value-item">
+                                <div className="value-box value-color-3">
+                                    <h3 className="value-title">Innovación y Tecnología</h3>
+                                </div>
+                            </Col>
+                            <Col xs={12} md={6} lg={3} className="value-item">
+                                <div className="value-box value-color-4">
+                                    <h3 className="value-title">Compromiso con la experiencia del cliente</h3>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
 
-                <div className="section4-container">
+                <div className="section-container">
                     <h2 className="section-title">¿Por qué elegirnos?</h2>
                     <p className="section-description">
-                        Nuestro salón está ubicado en el corazón de Florencio Varela, con acceso a estacionamiento
-                        gratuito, seguridad y todas las comodidades para hacer de tu evento una experiencia única.
+                        Nuestra empresa se encuentra ubicada en el corazón de Florencio Varela.
                         Ofrecemos opciones personalizadas, paquetes preestablecidos y espacios interiores y exteriores
                         para adaptarnos a cualquier tipo de evento.
                     </p>
                 </div>
+
+                <div className="contact-section">
+                    <div className='contact-text'>
+                        <h2 className="section-title">TU EVENTO, </h2>
+                        <h1 className="contact-title">UN RECUERDO INOLVIDABLE</h1>
+                        <br/>
+                        <div className="contact-info">
+                            <p><i className="fas fa-phone-alt"></i> +54 9 11 2345-6789</p>
+                            <p><i className="fas fa-envelope"></i> contacto@eventcraft.com</p>
+                            <p><i className="fas fa-map-marker-alt"></i> Calle Ficticia 123, Florencio Varela, Buenos Aires</p>
+                        </div>
+                    </div>
+                    <img src="/images/EVENTCRAFT.jpeg" alt="Imagen de contacto" className="contact-image" />
+                </div>
             </div>
+            <Footer />
         </>
     )
 }

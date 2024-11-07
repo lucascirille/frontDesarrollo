@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Incluye el padding y el border en el tamaño total */
+    box-sizing: border-box; 
     max-width: 100%;
   }
   
@@ -9,7 +9,7 @@
     background-image: url('/images/paisaje3.jpg');
     background-size: cover;
     background-position: center;
-    height: 100vh; /* Ocupa toda la pantalla */
+    height: 100vh; 
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -20,9 +20,9 @@
     padding-bottom: 50px;
   }
   .about-container h1 {
-    font-size: 6rem;  /* Tamaño de letra más grande */
-    font-family: 'Georgia', serif;  /* Fuente formal */
-    font-weight: 600;  /* Hace que la letra sea más gruesa pero elegante */
+    font-size: 6rem;  
+    font-family: 'Georgia', serif;  
+    font-weight: 600;  
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   }
 
@@ -37,45 +37,45 @@
   .about-content {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra todo el contenido verticalmente */
-    align-items: center; /* Centra todo el contenido horizontalmente */
-    gap: 50px; /* Espacio entre las secciones */
-    padding: 20px; /* Añadir algo de espacio alrededor */
+    justify-content: center; 
+    align-items: center;
+    gap: 50px;
+    padding: 20px; 
   }
 
   .section1-container {
     display: flex;
-    flex-direction: column; /* Asegura que el título y el párrafo estén en columna */
-    align-items: center; /* Centra los elementos dentro del contenedor */
+    flex-direction: column; 
+    align-items: center;
     justify-content: center;
-    gap: 20px; /* Espacio entre el título y el párrafo */
-    max-width: 1200px; /* Limita el ancho máximo */
+    gap: 20px; 
+    max-width: 1200px; 
     width: 100%;
-    margin-top: 50px; /* Espacio respecto a la imagen del header */
+    margin-top: 50px; 
   }
   
   .section2-container .section-title {
     font-size: 2rem;
     font-weight: bold;
     color: #34495E;
-    text-align: center; /* Centra el título */
+    text-align: center; 
   }
 
   .section-title {
     font-size: 2rem;
     font-weight: bold;
     color: #34495E;
-    text-align: center; /* Centra el título */
+    text-align: center; 
   }
   
   .section-description {
     font-size: 1.1rem;
     color: #7F8C8D;
     line-height: 1.6;
-    text-align: center; /* Centra el texto */
+    text-align: center; 
   }
 
-  .background-image {
+  .backgroundN-image {
     background-image: url('/images/paisaje9.jpg'); 
     background-size: cover;
     background-position: center;
@@ -89,7 +89,7 @@
     margin-top: 20px;
   }
   
-  .content-box {
+  .contentN-box {
     background-color:  #ffffff;
     padding: 2rem;
     border-radius: 15px;
@@ -104,8 +104,198 @@
     transform: translateY(-50%);
   }
 
-  .video-container {
+  .section3-container {
     margin-top: 30%;
+    background-image: url('/images/imagen10.jpg');
+    position: relative;
+    padding: 50px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border-radius: 2em;
+  }
+  
+  .section3-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;  
+    filter: blur(8px);    
+    z-index: -1;          
   }
 
-  
+  .value-box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    color: #fff;
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.value-box:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.value-box::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 200%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    transition: all 0.5s ease;
+}
+
+.value-box:hover::before {
+    top: -20%;
+    left: 50%;
+    width: 120%;
+    height: 150%;
+}
+
+.value-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.value-box:hover .value-title {
+    color: #333; 
+}
+
+
+.value-color-1 {
+    background: linear-gradient(45deg, #ff6f61, #ff9c8b);
+}
+
+.value-color-2 {
+    background: linear-gradient(45deg, #5cb85c, #72e07a);
+}
+
+.value-color-3 {
+    background: linear-gradient(45deg, #0275d8, #5e95d1);
+}
+
+.value-color-4 {
+    background: linear-gradient(45deg, #f0ad4e, #f7bb7f);
+}
+
+.contact-section {
+  background-color: #ffffff;  
+  padding: 60px 20px; 
+  display: flex;
+  justify-content: space-between;  
+  align-items: center; 
+  flex-wrap: wrap; 
+  text-align: left; 
+  margin-top: 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  border-radius: 10px;  
+}
+
+.contact-title {
+  font-size: 3rem;         
+  font-weight: 700;    
+  color: #3498db;      
+  margin-top: 0;         
+  margin-bottom: 20px;   
+  line-height: 1.3;      
+}
+
+.section-title {
+  font-size: 2rem;        
+  font-weight: 500;      
+  color: #2c3e50;        
+  margin-bottom: 10px;    
+}
+
+.contact-text {
+  display: flex;
+  flex-direction: column;  
+  align-items: flex-start; 
+  text-align: left;        
+  margin-bottom: 20px;    
+}
+
+.contact-info {
+  font-size: 1.1rem;
+  color: #333; 
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-info p {
+  margin: 8px 0;  
+}
+
+.contact-info strong {
+  color: #3498db; 
+  font-weight: 700;  
+}
+
+.contact-image {
+  max-width: 40%;  
+  height: auto;  
+  border-radius: 10px;  
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  margin-top: 0;  
+}
+
+.contact-info i {
+  color: #3498db;
+  margin-right: 10px; 
+  font-size: 1.3rem;  
+}
+
+
+.section-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  gap: 20px; 
+  padding: 20px;  
+  max-width: 800px; 
+  width: 100%;
+  margin: 0 auto; 
+}
+
+
+.section-container h2.section-title {
+  font-size: 2.5rem;  
+  font-weight: bold;
+  color: #34495E;
+  text-align: center; 
+}
+
+
+.section-container p.section-description {
+  font-size: 1.2rem;  
+  color: black;
+  line-height: 1.6;
+  text-align: center; 
+  margin: 0 auto; 
+  max-width: 700px; 
+}

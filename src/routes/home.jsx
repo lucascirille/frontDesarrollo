@@ -52,8 +52,8 @@ export default function Home() {
                 </header>
             </div>
             <div className="container1">
-                <div className="background-image">
-                    <div ref={contentBox} className="content-box">
+                <div className="backgroundH-image">
+                    <div ref={contentBox} className="contentH-box">
                         <h2>Haciendo Historia</h2>
                         <h1>En Cada Evento</h1>
                         <p>
