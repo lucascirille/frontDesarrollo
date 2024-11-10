@@ -81,7 +81,7 @@ export default function Reserva() {
 
     async function ObtenerSalones() {
         try {
-            const response = await getSalones();
+            const response = await getSalones(); 
             setSalones(response.data.datos);
         } catch (error) {
             console.error("Error al obtener los salones:", error);

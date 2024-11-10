@@ -46,7 +46,7 @@ export default function Caracteristicas() {
                 setCaracteristicas(caracteristicas.map(caracteristica => caracteristica.id === caracteristicaAEditar.id 
                     ? { ...data, id: caracteristicaAEditar.id } 
                     : caracteristica));
-                setCaracteristicaAEditar(null);  
+                setCaracteristicaAEditar(null);   
             } else {
                 console.log(data);
                 const response = await createCaracteristica(data);
