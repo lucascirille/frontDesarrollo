@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -55,7 +55,9 @@ export default function Salones() {
         try {
             if (salonAEditar) {
                 await updateSalon(salonAEditar.id, data);
-                setSalones(salones.map(salon => salon.id === salonAEditar.id ? data : salon));
+                setSalones(salones.map(salon => salon.id === salonAEditar.id 
+                    ? { ...data, id: salonAEditar.id } 
+                    : salon));
                 setSalonAEditar(null);  
             } else {
                 console.log(data);
@@ -65,7 +67,9 @@ export default function Salones() {
             reset();
             setFormVisible(false);  
         } catch (error) {
-            setError(salonAEditar ? "Error al actualizar el salón." : "Error al crear el salón.");
+           setError(salonAEditar ? "Error al actualizar el salón." : "Error al crear el salón.");
+
+            
         }
     };
 
@@ -264,12 +268,14 @@ export default function Salones() {
                         </Row>
                         
 
-                        <Button variant="primary" type="submit">
-                            Guardar Salón
-                        </Button>
-                        <Button variant="secondary" className="ms-2" onClick={() => {setFormVisible(false); setSalonAEditar(null); reset();}}>
-                            Cancelar
-                        </Button>
+                        <div className="d-flex gap-2">
+                            <Button variant="primary" type="submit">
+                                Guardar Caracteristica
+                            </Button>
+                            <Button variant="primary" className="ms-2" onClick={() => {setFormVisible(false); setCaracteristicaAEditar(null); reset();}}>
+                                Cancelar
+                            </Button>
+                        </div>
                     </Form>
                     </>
             )}
