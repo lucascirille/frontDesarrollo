@@ -1,5 +1,16 @@
 import axios from "axios";
 
+// GET
+export async function getReservas() {
+    try {
+        const response = await axios.get("https://localhost:7164/api/Reserva/obtenerReservas");
+        return response;
+    } catch (error) {
+        console.log(error.response);
+        throw new Error(error.response.data.mensaje);
+    }
+}
+
 // POST
 export async function createReserva(nuevaReserva) {
     try {
@@ -12,6 +23,28 @@ export async function createReserva(nuevaReserva) {
         throw new Error(error.response?.data?.mensaje || "Error desconocido");
     }
 };
+
+//DELETE
+export async function deleteReserva(reservaId) {
+    try {
+        const response = await axios.delete(`https://localhost:7164/api/Reserva/eliminarReserva?id=${reservaId}`);
+        return response;
+    } catch (error) {
+        throw new Error(error.response.data.mensaje);
+    }
+}
+
+//EDIT
+export async function updateReserva(reservaId, reservaData) {
+    try {
+        const response = await axios.put(`https://localhost:7164/api/Reserva/modificarReserva?id=${reservaId}`, reservaData);
+        return response;
+    } catch (error) {
+        console.log("Error en el service", error.response);
+        throw new Error(error.response.data.mensaje);
+    } 
+};
+
 
 // GET
 export async function getFechasOcupadas(salonId, franjaHoraria) {
@@ -31,7 +64,7 @@ export async function getFechasOcupadas(salonId, franjaHoraria) {
         console.error("Error al obtener las fechas ocupadas:", error);
         throw new Error(error.response?.data?.mensaje || "Error desconocido al obtener fechas ocupadas");
     }
-}
+} 
 
 //GET
 export async function GetReservasDeSalonesSociales() {

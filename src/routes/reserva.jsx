@@ -20,7 +20,7 @@ const initialSchema = yup.object().shape({
   horaExtra: yup.boolean().required(),
   cantidadPersonas: yup.number().positive().integer().required("La cantidad de personas es obligatoria").min(20,"Minimo se requieren 20 invitados"),
   salonId: yup.string().required("Debes seleccionar un tipo de evento"),
-});
+}); 
 
 export default function Reserva() {
     

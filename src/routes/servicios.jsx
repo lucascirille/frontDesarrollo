@@ -8,7 +8,7 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
-const schema = yup.object({
+const schema = yup.object({ 
     nombre: yup.string().required("Este campo es obligatorio"),
     descripcion: yup.string().required("Este campo es obligatorio"),
     estado: yup.boolean().required(),
