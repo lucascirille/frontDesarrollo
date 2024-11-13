@@ -37,7 +37,7 @@ export default function Servicios() {
             }
         }
         ObtenerServicios(); 
-    }, []);
+    }, [servicios]);
 
     const onSubmit = async (data) => {
         try {

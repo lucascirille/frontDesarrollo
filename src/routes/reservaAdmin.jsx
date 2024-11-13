@@ -46,14 +46,13 @@ export default function ReservaAdmin() {
             try {
                 const response = await getReservas();
                 setReservas(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener las reservas:", error);
                 setError("Error al obtener los datos.");
             }
         }
         ObtenerReservas(); 
-    }, []);
+    }, [reservas]);
 
     useEffect(() => {
 
@@ -153,14 +152,12 @@ export default function ReservaAdmin() {
         async function obtenerFechasOcupadas() {
         try {
             const response = await getFechasOcupadas(parseInt(salonSeleccionado), franjaHorariaSeleccionada);
-            console.log("Esta es mi respuesta" , response.data.datos);
 
             if (response.data.datos && response.data.datos.length > 0) {
 
             const fechas = response.data.datos.map(fecha => startOfDay(parseISO(fecha)));
 
             setFechasOcupadas(fechas);
-            console.log("Esta es mi nueva respuesta", fechas);
             } else {
             console.warn("No hay fechas ocupadas para este salón.");
             setFechasOcupadas(fechas);

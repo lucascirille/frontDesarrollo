@@ -34,14 +34,13 @@ export default function SalonCaracteristicas() {
             try {
                 const response = await getSalonCaracteristicas();
                 setsalonesCaracteristicas(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener los salonesCaracteristicas:", error);
                 setError("Error al obtener los datos.");
             }
         }
         ObtenersalonesCaracteristicas(); 
-    }, []);
+    }, [salonesCaracteristicas]);
 
     
     useEffect(() => {

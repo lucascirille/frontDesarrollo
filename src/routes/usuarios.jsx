@@ -33,14 +33,13 @@ export default function Usuarios() {
             try {
                 const response = await getUsuarios();
                 setUsuarios(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener los usuarios:", error);
                 setError("Error al obtener los datos.");
             }
         }
         ObtenerUsuarios(); 
-    }, []);
+    }, [usuarios]);
 
     const onSubmit = async (data) => {
         try {

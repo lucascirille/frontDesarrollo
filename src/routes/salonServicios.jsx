@@ -34,14 +34,13 @@ export default function SalonServicios() {
             try {
                 const response = await getSalonServicios();
                 setsalonesServicios(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener los salonesServicios:", error);
                 setError("Error al obtener los datos.");
             }
         }
         ObtenersalonesServicios(); 
-    }, []);
+    }, [salonesServicios]);
 
     
     useEffect(() => {

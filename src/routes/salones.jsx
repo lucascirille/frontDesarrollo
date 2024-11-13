@@ -42,14 +42,13 @@ export default function Salones() {
             try {
                 const response = await getSalones();
                 setSalones(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener los salones:", error);
                 setError("Error al obtener los datos.");
             }
         }
         ObtenerSalones(); 
-    }, []);
+    }, [salones]);
 
     const onSubmit = async (data) => {
         try {

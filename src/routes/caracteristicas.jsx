@@ -30,14 +30,13 @@ export default function Caracteristicas() {
             try {
                 const response = await getCaracteristicas();
                 setCaracteristicas(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener las caracteristicas:", error);
                 setError("Error al obtener los datos.");
             }
         }
         ObtenerCaracteristicas(); 
-    }, []);
+    }, [caracteristicas]);
 
     const onSubmit = async (data) => {
         try {
