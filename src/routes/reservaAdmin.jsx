@@ -8,7 +8,7 @@ import { getUsuarios } from '../helpers/usuarios/usuariosService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
-import { parseISO, startOfDay } from 'date-fns';
+import { parseISO, startOfDay, format } from 'date-fns';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -132,8 +132,7 @@ export default function ReservaAdmin() {
             } else {
                 console.log(data);
                 const response = await createReserva(reservacionData);
-                console.log("Estoy haciendo el alta de reservas", response);
-                setReservas([...reservas, response.data.datos]);
+                setReservas([...reservas, { ...response.data.datos }]);
             }
             reset();
             setFormVisible(false); 
@@ -177,7 +176,7 @@ export default function ReservaAdmin() {
         }
         obtenerFechasOcupadas();
     }
-    }, [salonSeleccionado, franjaHorariaSeleccionada]);
+    }, [salonSeleccionado, franjaHorariaSeleccionada, reservas]);
 
     //para desabilitar las fechas
     const isDayDisabled = (date) => {
