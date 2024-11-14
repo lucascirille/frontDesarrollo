@@ -117,7 +117,7 @@ export default function ReservaAdmin() {
         console.log("data formateada", formattedDate);
     
         const reservacionData = { ...data, fecha: formattedDate, salonId: idDelSalon, usuarioId: idDelUsuario };
-        console.log("Datos de la reservacion", reservacionData);
+        console.log("Datos de la reservacion", reservacionData); 
     
         try {
 
@@ -139,7 +139,7 @@ export default function ReservaAdmin() {
             console.log("Mensaje de error", error.message);
             if (error.message === "La reserva que intenta crear ya existe" || error.message === "Ya existe una reserva con el mismo nombre. Elija otro nombre."){
                 console.error('Error al crear:', error);
-                setError("nombre", { type: "manual", message: "La reserva que intenta crear ya existe" });
+                setError("titulo", { type: "manual", message: "La reserva que intenta crear ya existe" });
             } else {
                 console.error("Error:", error);
                 setError("form", { type: "manual", message: "Error al crear la reserva." });

@@ -7,8 +7,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Root from './routes/root';
-import Perfil from './routes/perfil';
-import Perfiles from "./routes/perfiles"
 import ErrorPage from './routes/errorPage';
 import Home from './routes/home';
 import Salones from './routes/salones';
@@ -43,17 +41,6 @@ const router = createBrowserRouter([
       {
         index: true, // Esto indica que este es el componente a mostrar en la ruta raíz
         element: <Home />,
-      },
-      {
-        path: "/perfil",
-        element: <Perfiles />,
-        children: [
-          {
-            path: ":Id",
-            element: <Perfil />,
-          }
-        ]
-
       },
       {
         path: "/nosotros",

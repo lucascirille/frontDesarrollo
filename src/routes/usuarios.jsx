@@ -170,8 +170,8 @@ export default function Usuarios() {
                                     <Form.Label>Rol</Form.Label>
                                     <Form.Select {...register("rol")}>
                                         <option value="">Seleccione un rol</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="cliente">Cliente</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Cliente">Cliente</option>
                                     </Form.Select>
                                     {errors.rol && <p className="error-message">{errors.rol.message}</p>}
                                 </Form.Group>

@@ -26,7 +26,7 @@ export default function SalonServicios() {
     const [salones, setSalones] = useState([]);
     const [servicios, setServicios] = useState([]);
     const { register, handleSubmit, reset, setValue, setError, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema) 
       });
 
     useEffect(() => {

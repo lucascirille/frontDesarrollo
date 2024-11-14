@@ -45,9 +45,6 @@ export default function LayoutCliente({ children }) {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={"/perfil"}>Perfil</Link>
-              </li>
-              <li className="nav-item">
                 <Link className="nav-link" to={"/nosotros"}>Nosotros</Link>
               </li>
               <li className="nav-item">
