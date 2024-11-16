@@ -12,10 +12,14 @@ export async function getCaracteristicas() {
 }
 
 // POST
-export async function createCaracteristica(nuevaCaracteristica) {
+export async function createCaracteristica(nuevaCaracteristica, auth) {
     try {
         //console.log("estoy en crear caracteristica", nuevaCaracteristica);
-        const response = await axios.post("https://localhost:7164/api/Caracteristica/crearCaracteristica", nuevaCaracteristica);
+        const response = await axios.post("https://localhost:7164/api/Caracteristica/crearCaracteristica", nuevaCaracteristica, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Este es el error: ", error.response.data.mensaje)
@@ -24,9 +28,13 @@ export async function createCaracteristica(nuevaCaracteristica) {
 };
 
 //DELETE
-export async function deleteCaracteristica(caracteristicaId) {
+export async function deleteCaracteristica(caracteristicaId, auth) {
     try {
-        const response = await axios.delete(`https://localhost:7164/api/Caracteristica/eliminarCaracteristica?id=${caracteristicaId}`);
+        const response = await axios.delete(`https://localhost:7164/api/Caracteristica/eliminarCaracteristica?id=${caracteristicaId}`, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response.data.mensaje);

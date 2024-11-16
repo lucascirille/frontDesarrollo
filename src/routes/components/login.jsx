@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/loginForm.css' 
 
 const LoginForm = () => {
-  const { iniciarSesion, error } = useContext(AuthContext);
+  const { iniciarSesion, error } = useContext(AuthContext); 
   const navigate = useNavigate();
   const {
     register,

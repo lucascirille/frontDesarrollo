@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { getCaracteristicas, createCaracteristica, deleteCaracteristica, updateCaracteristica } from '../helpers/caracteristicas/caracteristicasService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -21,6 +22,7 @@ export default function Caracteristicas() {
     const [showCaracteristicas, setShowCaracteristicas] = useState(true);
     const [formVisible, setFormVisible] = useState(false);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const { auth } = useContext(AuthContext);
     const { register, handleSubmit, reset, setValue, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
@@ -48,7 +50,7 @@ export default function Caracteristicas() {
                 setCaracteristicaAEditar(null);   
             } else {
                 console.log(data);
-                const response = await createCaracteristica(data);
+                const response = await createCaracteristica(data, auth);
                 setCaracteristicas([...caracteristicas, response.data.datos]);
             }
             reset();
@@ -82,7 +84,7 @@ export default function Caracteristicas() {
 
     const confirmarDeleteCaracteristica = async () => {
         try {
-            await deleteCaracteristica(caracteristicaAEliminar);
+            await deleteCaracteristica(caracteristicaAEliminar, auth);
             setCaracteristicas(caracteristicas.filter(caracteristica => caracteristica.id !== caracteristicaAEliminar));
             setcaracteristicaAEliminar(null); 
             setShowCaracteristicas(true);

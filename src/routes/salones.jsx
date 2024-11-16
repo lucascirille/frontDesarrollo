@@ -269,7 +269,7 @@ export default function Salones() {
 
                         <div className="d-flex gap-2">
                             <Button variant="primary" type="submit">
-                                Guardar Caracteristica
+                                Guardar Salon
                             </Button>
                             <Button variant="primary" className="ms-2" onClick={() => {setFormVisible(false); setCaracteristicaAEditar(null); reset();}}>
                                 Cancelar

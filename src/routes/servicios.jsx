@@ -30,7 +30,6 @@ export default function Servicios() {
             try {
                 const response = await getServicios();
                 setServicios(response.data.datos);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error al obtener los servicios:", error);
                 setError("Error al obtener los datos.");

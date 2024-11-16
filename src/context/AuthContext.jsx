@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); 
     const [userId, setUserId] = useState(null); 
     const [role, setRole] = useState(null); 
+    const [auth, setAuthenticated] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }) => {
             const storedUser = localStorage.getItem("user");
             const storedRole = localStorage.getItem("userRole");
             const storedId = localStorage.getItem("userId");
+            const storedAuthorization = localStorage.getItem("authorization");
 
 
             if (storedUser) {
@@ -33,6 +35,9 @@ export const AuthProvider = ({ children }) => {
                 setUserId(parseInt(storedId));
             }
             setLoading(false);
+            if (storedAuthorization){
+                setAuthenticated(storedAuthorization)
+            }
         };
 
         verificarAutenticacion();
@@ -48,10 +53,12 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("user", JSON.stringify(userInfo.userData));
             localStorage.setItem("userId", userInfo.userData.id);
             localStorage.setItem("userRole", userInfo.userData.rol);
+            localStorage.setItem("authorization", userInfo.userData.token);
 
             setUser(userInfo.userData); 
             setUserId(parseInt(userInfo.userData.id));
             setRole(userInfo.userData.rol); 
+            setAuthenticated(userInfo.userData.token);
             return true;
         } catch (error) {
             console.error('Error en el login:', error);
@@ -69,9 +76,11 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
             setUserId(null);
             setRole(null); 
+            setAuthenticated(null);
             localStorage.removeItem("userRole");
             localStorage.removeItem("userId");
             localStorage.removeItem("user");
+            localStorage.removeItem("authorization");
         } catch (error) {
             console.error('Error en el logout:', error);
         }finally{
@@ -80,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, userId, role, loading, iniciarSesion, cerrarSesion, error }}>
+        <AuthContext.Provider value={{ user, userId, role, auth, loading, iniciarSesion, cerrarSesion, error }}>
             {children}
         </AuthContext.Provider>
     );
