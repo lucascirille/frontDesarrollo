@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -7,6 +7,7 @@ import { getSalones } from '../helpers/salones/salonesService';
 import { getServicios } from '../helpers/servicios/serviciosService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -17,6 +18,7 @@ const schema = yup.object({
   }).required();
 
 export default function SalonServicios() {
+    const { auth } = useContext(AuthContext);
     const [salonesServicios, setsalonesServicios] = useState([]);
     const [salonServicioAEditar, setsalonServicioAEditar] = useState(null);
     const [salonServicioAEliminar, setsalonServicioAEliminar] = useState(null);
@@ -61,7 +63,7 @@ export default function SalonServicios() {
       useEffect(() => {
         async function ObtenerServicios() {
             try {
-                const response = await getServicios();
+                const response = await getServicios(); 
                 setServicios(response.data.datos);
                 console.log(response.data);
             } catch (error) {
@@ -78,13 +80,13 @@ export default function SalonServicios() {
         const salonServicioData = { ...data, salonId: idDelSalon, servicioId: idDeServicio};
         try {
             if (salonServicioAEditar) {
-                await updateSalonServicio(salonServicioAEditar.id, salonServicioData);
+                await updateSalonServicio(salonServicioAEditar.id, salonServicioData, auth);
                 setsalonesServicios(salonesServicios.map(salonServicio => salonServicio.id === salonServicioAEditar.id 
                     ? { ...data, id: salonServicioAEditar.id } 
                     : salonServicio));
                 setsalonServicioAEditar(null);  
             } else {
-                const response = await createSalonServicio(salonServicioData);
+                const response = await createSalonServicio(salonServicioData, auth);
                 setsalonesServicios([...salonesServicios, response.data.datos]);
             }
             reset();
@@ -112,7 +114,7 @@ export default function SalonServicios() {
 
     const confirmarDeleteSalonServicio = async () => {
         try {
-            await deleteSalonServicio(salonServicioAEliminar);
+            await deleteSalonServicio(salonServicioAEliminar, auth);
             setsalonesServicios(salonesServicios.filter(salonServicio => salonServicio.id !== salonServicioAEliminar));
             setsalonServicioAEliminar(null); 
             setshowsalonesServicios(true);

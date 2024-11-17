@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { getServicios, createServicio, deleteServicio, updateServicio } from '../helpers/servicios/serviciosService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -15,6 +16,7 @@ const schema = yup.object({
   }).required();
 
 export default function Servicios() {
+    const { auth } = useContext(AuthContext);
     const [servicios, setServicios] = useState([]);
     const [servicioAEditar, setServicioAEditar] = useState(null);
     const [servicioAEliminar, setServicioAEliminar] = useState(null);
@@ -41,14 +43,14 @@ export default function Servicios() {
     const onSubmit = async (data) => {
         try {
             if (servicioAEditar) {
-                await updateServicio(servicioAEditar.id, data);
+                await updateServicio(servicioAEditar.id, data, auth);
                 setServicios(servicios.map(servicio => servicio.id === servicioAEditar.id 
                     ? { ...data, id: servicioAEditar.id } 
                     : servicio));
                 setServicioAEditar(null);  
             } else {
                 console.log(data);
-                const response = await createServicio(data);
+                const response = await createServicio(data, auth);
                 setServicios([...servicios, response.data.datos]);
             }
             reset();
@@ -82,7 +84,7 @@ export default function Servicios() {
 
     const confirmarDeleteServicio = async () => {
         try {
-            await deleteServicio(servicioAEliminar);
+            await deleteServicio(servicioAEliminar, auth);
             setServicios(servicios.filter(servicio => servicio.id !== servicioAEliminar));
             setServicioAEliminar(null); 
             setShowServicios(true);

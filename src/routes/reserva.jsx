@@ -24,7 +24,7 @@ const initialSchema = yup.object().shape({
 
 export default function Reserva() {
     
-  const { userId } = useContext(AuthContext);
+  const { userId, auth } = useContext(AuthContext);
   const formRef = useRef(null);
   const [salones, setSalones] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -64,7 +64,7 @@ export default function Reserva() {
 
     try {
         console.log("estoy en el submit", reservacionData);
-        const response = await createReserva(reservacionData);
+        const response = await createReserva(reservacionData, auth);
         reset();
         setError("");
         setShowModal(true);

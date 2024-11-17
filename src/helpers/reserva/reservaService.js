@@ -7,15 +7,19 @@ export async function getReservas() {
         return response;
     } catch (error) {
         console.log(error.response);
-        throw new Error(error.response.data.mensaje);
+        throw new Error(error.response.data.mensaje); 
     }
 }
 
 // POST
-export async function createReserva(nuevaReserva) {
+export async function createReserva(nuevaReserva, auth) {
     try {
         console.log("Estoy en reserva", nuevaReserva);
-        const response = await axios.post("https://localhost:7164/api/Reserva/crearReserva", nuevaReserva);
+        const response = await axios.post("https://localhost:7164/api/Reserva/crearReserva", nuevaReserva, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         console.log("Esta es la respuesta", response);
         return response;
     }  catch (error) {
@@ -25,9 +29,13 @@ export async function createReserva(nuevaReserva) {
 };
 
 //DELETE
-export async function deleteReserva(reservaId) {
+export async function deleteReserva(reservaId, auth) {
     try {
-        const response = await axios.delete(`https://localhost:7164/api/Reserva/eliminarReserva?id=${reservaId}`);
+        const response = await axios.delete(`https://localhost:7164/api/Reserva/eliminarReserva?id=${reservaId}`, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response.data.mensaje);
@@ -35,9 +43,13 @@ export async function deleteReserva(reservaId) {
 }
 
 //EDIT
-export async function updateReserva(reservaId, reservaData) {
+export async function updateReserva(reservaId, reservaData, auth) {
     try {
-        const response = await axios.put(`https://localhost:7164/api/Reserva/modificarReserva?id=${reservaId}`, reservaData);
+        const response = await axios.put(`https://localhost:7164/api/Reserva/modificarReserva?id=${reservaId}`, reservaData, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Error en el service", error.response);

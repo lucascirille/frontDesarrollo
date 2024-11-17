@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -7,6 +7,7 @@ import { getReservas } from '../helpers/reserva/reservaService';
 import { getServicios } from '../helpers/servicios/serviciosService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -17,6 +18,7 @@ const schema = yup.object({
   }).required();
 
 export default function ReservaServiciosAdmin() {
+    const { auth } = useContext(AuthContext);
     const [reservaServicios, setReservaServicios] = useState([]);
     const [reservaServicioAEditar, setReservaServicioAEditar] = useState(null);
     const [reservaServicioAEliminar, setReservaServicioAEliminar] = useState(null);
@@ -72,18 +74,18 @@ export default function ReservaServiciosAdmin() {
     }, []);
 
     const onSubmit = async (data) => {
-        const idDeReserva = Number(data.reservaId);
+        const idDeReserva = Number(data.reservaId); 
         const idDeServicio = Number(data.servicioId);
         const reservaServicioData = { ...data, reservaId: idDeReserva, servicioId: idDeServicio};
         try {
             if (reservaServicioAEditar) {
-                await updateReservaServicio(reservaServicioAEditar.id, reservaServicioData);
+                await updateReservaServicio(reservaServicioAEditar.id, reservaServicioData, auth);
                 setReservaServicios(reservaServicios.map(reservaServicio => reservaServicio.id === reservaServicioAEditar.id 
                     ? { ...data, id: reservaServicioAEditar.id } 
                     : reservaServicio));
                 setReservaServicioAEditar(null);  
             } else {
-                const response = await createReservaServicio(reservaServicioData);
+                const response = await createReservaServicio(reservaServicioData, auth);
                 setReservaServicios([...reservaServicios, response.data.datos]);
             }
             reset();
@@ -110,7 +112,7 @@ export default function ReservaServiciosAdmin() {
 
     const confirmarDeleteReservaServicio = async () => {
         try {
-            await deleteReservaServicio(reservaServicioAEliminar);
+            await deleteReservaServicio(reservaServicioAEliminar, auth);
             setReservaServicios(reservaServicios.filter(reservaServicio => reservaServicio.id !== reservaServicioAEliminar));
             setReservaServicioAEliminar(null); 
             setshowReservaServicios(true);

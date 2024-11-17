@@ -42,8 +42,8 @@ export default function Caracteristicas() {
 
     const onSubmit = async (data) => {
         try {
-            if (caracteristicaAEditar) {
-                await updateCaracteristica(caracteristicaAEditar.id, data);
+            if (caracteristicaAEditar) { 
+                await updateCaracteristica(caracteristicaAEditar.id, data, auth);
                 setCaracteristicas(caracteristicas.map(caracteristica => caracteristica.id === caracteristicaAEditar.id 
                     ? { ...data, id: caracteristicaAEditar.id } 
                     : caracteristica));

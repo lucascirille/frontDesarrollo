@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -7,7 +7,8 @@ import { getSalones } from '../helpers/salones/salonesService';
 import { getCaracteristicas } from '../helpers/caracteristicas/caracteristicasService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
-import '../styles/salonesForm.css'
+import { AuthContext } from '../context/AuthContext';
+import '../styles/salonesForm.css' 
 import '../styles/errors.css'
 
 const schema = yup.object({
@@ -17,6 +18,7 @@ const schema = yup.object({
   }).required();
 
 export default function SalonCaracteristicas() {
+    const { auth } = useContext(AuthContext);
     const [salonesCaracteristicas, setsalonesCaracteristicas] = useState([]);
     const [salonCaracteristicaAEditar, setsalonCaracteristicaAEditar] = useState(null);
     const [salonCaracteristicaAEliminar, setsalonCaracteristicaAEliminar] = useState(null);
@@ -78,13 +80,13 @@ export default function SalonCaracteristicas() {
         const salonCaracteristicaData = { ...data, salonId: idDelSalon, caracteristicaId: idDeCaracteristica};
         try {
             if (salonCaracteristicaAEditar) {
-                await updateSalonCaracteristica(salonCaracteristicaAEditar.id, salonCaracteristicaData);
+                await updateSalonCaracteristica(salonCaracteristicaAEditar.id, salonCaracteristicaData, auth);
                 setsalonesCaracteristicas(salonesCaracteristicas.map(salonCaracteristica => salonCaracteristica.id === salonCaracteristicaAEditar.id 
                     ? { ...data, id: salonCaracteristicaAEditar.id } 
                     : salonCaracteristica));
                 setsalonCaracteristicaAEditar(null);  
             } else {
-                const response = await createSalonCaracteristica(salonCaracteristicaData);
+                const response = await createSalonCaracteristica(salonCaracteristicaData, auth);
                 setsalonesCaracteristicas([...salonesCaracteristicas, response.data.datos]);
             }
             reset();
@@ -112,7 +114,7 @@ export default function SalonCaracteristicas() {
 
     const confirmarDeleteSalonCaracteristica = async () => {
         try {
-            await deleteSalonCaracteristica(salonCaracteristicaAEliminar);
+            await deleteSalonCaracteristica(salonCaracteristicaAEliminar, auth);
             setsalonesCaracteristicas(salonesCaracteristicas.filter(salonCaracteristica => salonCaracteristica.id !== salonCaracteristicaAEliminar));
             setsalonCaracteristicaAEliminar(null); 
             setshowsalonesCaracteristicas(true);

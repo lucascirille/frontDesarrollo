@@ -1,13 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getServiciosBySalonId } from '../../helpers/salones/salonesService';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import '../../styles/salonInfo.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { GetReservaIdByReservaNombre } from '../../helpers/reserva/reservaService'
 import { createReservaServicio } from '../../helpers/reservaServicio/reservaServicioService'
+import { AuthContext } from '../../context/AuthContext';
 
 export default function ReservaServicios() {
+    const { auth } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
     const { salonId, nombreReserva } = location.state || {};
@@ -86,7 +88,7 @@ export default function ReservaServicios() {
                     precio: servicio.precio
                 };
 
-                await createReservaServicio(nuevoReservaServicio);
+                await createReservaServicio(nuevoReservaServicio, auth);
 
                 navigate('/');
             }

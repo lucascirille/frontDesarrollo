@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // GET
-export async function getSalonServicios() {
+export async function getSalonServicios() { 
     try {
         const response = await axios.get("https://localhost:7164/api/SalonServicio/obtenerSalonesServicios");
         return response;
@@ -12,9 +12,13 @@ export async function getSalonServicios() {
 }
 
 // POST
-export async function createSalonServicio(nuevoSalonServicio) {
+export async function createSalonServicio(nuevoSalonServicio, auth) {
     try {
-        const response = await axios.post("https://localhost:7164/api/SalonServicio/crearSalonServicio", nuevoSalonServicio);
+        const response = await axios.post("https://localhost:7164/api/SalonServicio/crearSalonServicio", nuevoSalonServicio, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Este es el error: ", error.response.data.mensaje)
@@ -23,9 +27,13 @@ export async function createSalonServicio(nuevoSalonServicio) {
 };
 
 //DELETE
-export async function deleteSalonServicio(SalonServicioId) {
+export async function deleteSalonServicio(SalonServicioId, auth) {
     try {
-        const response = await axios.delete(`https://localhost:7164/api/SalonServicio/eliminarSalonServicio?id=${SalonServicioId}`);
+        const response = await axios.delete(`https://localhost:7164/api/SalonServicio/eliminarSalonServicio?id=${SalonServicioId}`, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response.data.mensaje);
@@ -33,9 +41,13 @@ export async function deleteSalonServicio(SalonServicioId) {
 }
 
 //EDIT
-export async function updateSalonServicio(SalonServicioId, SalonServicioData) {
+export async function updateSalonServicio(SalonServicioId, SalonServicioData, auth) {
     try {
-        const response = await axios.put(`https://localhost:7164/api/SalonServicio/modificarSalonServicio?id=${SalonServicioId}`, SalonServicioData);
+        const response = await axios.put(`https://localhost:7164/api/SalonServicio/modificarSalonServicio?id=${SalonServicioId}`, SalonServicioData, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Error en el service", error.response);

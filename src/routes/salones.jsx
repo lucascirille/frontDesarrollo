@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { getSalones,createSalon,deleteSalon,updateSalon } from "../helpers/salones/salonesService";
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -25,7 +26,7 @@ const schema = yup.object({
   }).required();
 
 export default function Salones() {
-    
+    const { auth } = useContext(AuthContext);
     const [salones, setSalones] = useState([]);
     const [salonAEliminar, setSalonAEliminar] = useState(null);
     const [salonAEditar, setSalonAEditar] = useState(null);
@@ -53,14 +54,14 @@ export default function Salones() {
     const onSubmit = async (data) => {
         try {
             if (salonAEditar) {
-                await updateSalon(salonAEditar.id, data);
+                await updateSalon(salonAEditar.id, data, auth);
                 setSalones(salones.map(salon => salon.id === salonAEditar.id 
                     ? { ...data, id: salonAEditar.id } 
                     : salon));
                 setSalonAEditar(null);  
             } else {
                 console.log(data);
-                const response = await createSalon(data);
+                const response = await createSalon(data, auth);
                 setSalones([...salones, response.data.datos]);
             }
             reset();
@@ -91,8 +92,8 @@ export default function Salones() {
 
     const confirmarDeleteSalon = async () => {
             try {
-                await deleteSalon(salonAEliminar);
-                setSalones(salones.filter(salon => salon.id !== salonAEliminar));
+                await deleteSalon(salonAEliminar, auth);
+                setSalones(salones.filter(salon => salon.id !== salonAEliminar)); 
                 setSalonAEliminar(null); 
                 setShowSalones(true);
                 setShowConfirmDialog(false);

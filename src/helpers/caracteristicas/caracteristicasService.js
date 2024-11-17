@@ -42,9 +42,13 @@ export async function deleteCaracteristica(caracteristicaId, auth) {
 }
 
 //EDIT
-export async function updateCaracteristica(caracteristicaId, caracteristicaData) {
+export async function updateCaracteristica(caracteristicaId, caracteristicaData, auth) {
     try {
-        const response = await axios.put(`https://localhost:7164/api/Caracteristica/modificarCaracteristica?id=${caracteristicaId}`, caracteristicaData);
+        const response = await axios.put(`https://localhost:7164/api/Caracteristica/modificarCaracteristica?id=${caracteristicaId}`, caracteristicaData, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response.data.mensaje);

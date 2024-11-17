@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -7,6 +7,7 @@ import { getSalones } from '../helpers/salones/salonesService';
 import { getUsuarios } from '../helpers/usuarios/usuariosService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import DatePicker from 'react-datepicker';
 import { parseISO, startOfDay, format } from 'date-fns';
 import '../styles/salonesForm.css'
@@ -23,7 +24,7 @@ const initialSchema = yup.object().shape({
   });
 
 export default function ReservaAdmin() {
-
+    const { auth } = useContext(AuthContext);
     const [reservas, setReservas] = useState([]);
     const [reservaAEditar, setReservaAEditar] = useState(null);
     const [reservaAEliminar, setReservaAEliminar] = useState(null);
@@ -122,7 +123,7 @@ export default function ReservaAdmin() {
         try {
 
             if (reservaAEditar) {
-                const response = await updateReserva(reservaAEditar.id, reservacionData);
+                const response = await updateReserva(reservaAEditar.id, reservacionData, auth);
                 console.log("Estoy en editar", response);
                 setReservas(reservas.map(reserva => reserva.id === reservaAEditar.id 
                     ? { ...reservacionData, id: reservaAEditar.id, fecha: response.data.datos.fecha} 
@@ -130,7 +131,7 @@ export default function ReservaAdmin() {
                 setReservaAEditar(null);  
             } else {
                 console.log(data);
-                const response = await createReserva(reservacionData);
+                const response = await createReserva(reservacionData, auth);
                 setReservas([...reservas, { ...response.data.datos }]);
             }
             reset();
@@ -195,7 +196,7 @@ export default function ReservaAdmin() {
 
     const confirmarDeleteReserva = async () => {
         try {
-            await deleteReserva(reservaAEliminar);
+            await deleteReserva(reservaAEliminar, auth);
             setReservas(reservas.filter(reserva => reserva.id !== reservaAEliminar));
             setReservaAEliminar(null); 
             setShowReservas(true);

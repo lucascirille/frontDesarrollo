@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useContext } from "react"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { getUsuarios, createUsuario, deleteUsuario, updateUsuario } from '../helpers/usuarios/usuariosService';
 import ConfirmarEliminacion from "./components/confirmarEliminacion";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { AuthContext } from '../context/AuthContext';
 import '../styles/salonesForm.css'
 import '../styles/errors.css'
 
@@ -18,6 +19,7 @@ const schema = yup.object({
   }).required();
 
 export default function Usuarios() {
+    const { auth } = useContext(AuthContext);
     const [usuarios, setUsuarios] = useState([]);
     const [usuarioAEditar, setusuarioAEditar] = useState(null);
     const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
@@ -44,14 +46,14 @@ export default function Usuarios() {
     const onSubmit = async (data) => {
         try {
             if (usuarioAEditar) {
-                await updateUsuario(usuarioAEditar.id, data);
+                await updateUsuario(usuarioAEditar.id, data, auth);
                 setUsuarios(usuarios.map(usuario => usuario.id === usuarioAEditar.id 
                     ? { ...data, id: usuarioAEditar.id } 
                     : usuario));
                 setusuarioAEditar(null);  
             } else {
                 console.log(data);
-                const response = await createUsuario(data);
+                const response = await createUsuario(data, auth);
                 setUsuarios([...usuarios, response.data.datos]);
             }
             reset();
@@ -81,7 +83,7 @@ export default function Usuarios() {
 
     const confirmarDeleteUsuario = async () => {
         try {
-            await deleteUsuario(usuarioAEliminar);
+            await deleteUsuario(usuarioAEliminar, auth);
             setUsuarios(usuarios.filter(usuario => usuario.id !== usuarioAEliminar));
             setUsuarioAEliminar(null); 
             setshowUsuarios(true);

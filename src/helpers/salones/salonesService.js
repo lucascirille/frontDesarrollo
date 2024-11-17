@@ -12,10 +12,14 @@ export async function getSalones() {
 }
 
 // POST
-export async function createSalon(nuevoSalon) {
+export async function createSalon(nuevoSalon, auth) {
     try {
         console.log("estoy en crear salon", nuevoSalon);
-        const response = await axios.post("https://localhost:7164/api/Salon/crearSalon", nuevoSalon);
+        const response = await axios.post("https://localhost:7164/api/Salon/crearSalon", nuevoSalon, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response?.data?.mensaje);
@@ -23,9 +27,13 @@ export async function createSalon(nuevoSalon) {
 };
 
 //DELETE
-export async function deleteSalon(salonId) {
+export async function deleteSalon(salonId, auth) {
     try {
-        const response = await axios.delete(`https://localhost:7164/api/Salon/eliminarSalon?id=${salonId}`);
+        const response = await axios.delete(`https://localhost:7164/api/Salon/eliminarSalon?id=${salonId}`, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response?.data?.mensaje);
@@ -33,9 +41,13 @@ export async function deleteSalon(salonId) {
 }
 
 //EDIT
-export async function updateSalon(salonId, salonData) {
+export async function updateSalon(salonId, salonData, auth) {
     try {
-        const response = await axios.put(`https://localhost:7164/api/Salon/modificarSalon?id=${salonId}`, salonData);
+        const response = await axios.put(`https://localhost:7164/api/Salon/modificarSalon?id=${salonId}`, salonData, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response?.data?.mensaje);

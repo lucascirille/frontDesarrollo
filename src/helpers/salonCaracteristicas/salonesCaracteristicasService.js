@@ -12,9 +12,13 @@ export async function getSalonCaracteristicas() {
 }
 
 // POST
-export async function createSalonCaracteristica(nuevoSalonCaracteristica) {
+export async function createSalonCaracteristica(nuevoSalonCaracteristica, auth) {
     try {
-        const response = await axios.post("https://localhost:7164/api/SalonCaracteristica/crearSalonCaracteristica", nuevoSalonCaracteristica);
+        const response = await axios.post("https://localhost:7164/api/SalonCaracteristica/crearSalonCaracteristica", nuevoSalonCaracteristica, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Este es el error: ", error.response.data.mensaje)
@@ -23,9 +27,13 @@ export async function createSalonCaracteristica(nuevoSalonCaracteristica) {
 };
 
 //DELETE
-export async function deleteSalonCaracteristica(SalonCaracteristicaId) {
+export async function deleteSalonCaracteristica(SalonCaracteristicaId, auth) {
     try {
-        const response = await axios.delete(`https://localhost:7164/api/SalonCaracteristica/eliminarSalonCaracteristica?id=${SalonCaracteristicaId}`);
+        const response = await axios.delete(`https://localhost:7164/api/SalonCaracteristica/eliminarSalonCaracteristica?id=${SalonCaracteristicaId}`, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response.data.mensaje);
@@ -33,9 +41,13 @@ export async function deleteSalonCaracteristica(SalonCaracteristicaId) {
 }
 
 //EDIT
-export async function updateSalonCaracteristica(SalonCaracteristicaId, SalonCaracteristicaData) {
+export async function updateSalonCaracteristica(SalonCaracteristicaId, SalonCaracteristicaData, auth) {
     try {
-        const response = await axios.put(`https://localhost:7164/api/SalonCaracteristica/modificarSalonCaracteristica?id=${SalonCaracteristicaId}`, SalonCaracteristicaData);
+        const response = await axios.put(`https://localhost:7164/api/SalonCaracteristica/modificarSalonCaracteristica?id=${SalonCaracteristicaId}`, SalonCaracteristicaData, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Error en el service", error.response);

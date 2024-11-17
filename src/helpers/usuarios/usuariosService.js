@@ -12,9 +12,13 @@ export async function getUsuarios() {
 }
 
 // POST
-export async function createUsuario(nuevoUsuario) {
+export async function createUsuario(nuevoUsuario, auth) {
     try {
-        const response = await axios.post("https://localhost:7164/api/Usuario/crearUsuario", nuevoUsuario);
+        const response = await axios.post("https://localhost:7164/api/Usuario/crearUsuario", nuevoUsuario, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Este es el error: ", error.response.data.mensaje)
@@ -23,9 +27,13 @@ export async function createUsuario(nuevoUsuario) {
 };
 
 //DELETE
-export async function deleteUsuario(usuarioId) {
+export async function deleteUsuario(usuarioId, auth) {
     try {
-        const response = await axios.delete(`https://localhost:7164/api/Usuario/eliminarUsuario?id=${usuarioId}`);
+        const response = await axios.delete(`https://localhost:7164/api/Usuario/eliminarUsuario?id=${usuarioId}`, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         throw new Error(error.response.data.mensaje);
@@ -33,9 +41,13 @@ export async function deleteUsuario(usuarioId) {
 }
 
 //EDIT
-export async function updateUsuario(usuarioId, usuarioData) {
+export async function updateUsuario(usuarioId, usuarioData, auth) {
     try {
-        const response = await axios.put(`https://localhost:7164/api/Usuario/modificarUsuario?id=${usuarioId}`, usuarioData);
+        const response = await axios.put(`https://localhost:7164/api/Usuario/modificarUsuario?id=${usuarioId}`, usuarioData, {
+            headers: {
+                Authorization: `Bearer ${auth}`
+            }
+        });
         return response;
     } catch (error) {
         console.log("Error en el service", error.response);
