@@ -15,10 +15,16 @@ import { parseISO, startOfDay } from 'date-fns';
 
 const initialSchema = yup.object().shape({
   titulo: yup.string().required("El nombre es obligatorio"),
-  fecha: yup.date().required("La fecha es obligatoria").min(new Date(), "La fecha no puede ser en el pasado"),
+  fecha: yup.date().required("La fecha es obligatoria").min(new Date(), "La fecha no puede ser la de hoy o estar en el pasado"),
   franjaHoraria: yup.string().required("El nombre es obligatorio"),
   horaExtra: yup.boolean().required(),
-  cantidadPersonas: yup.number().positive().integer().required("La cantidad de personas es obligatoria").min(20,"Minimo se requieren 20 invitados"),
+  cantidadPersonas: yup
+  .number("El campo es requerido")
+  .transform((value) => (isNaN(value) ? undefined : value))
+  .positive("La cantidad de personas debe ser un número positivo")
+  .integer("La cantidad de personas debe ser un número entero")
+  .min(20,"Minimo se requieren 20 invitados")
+  .required("La cantidad de personas es obligatoria"),
   salonId: yup.string().required("Debes seleccionar un tipo de evento"),
 }); 
 
@@ -108,11 +114,12 @@ export default function Reserva() {
 
         const cantidadPersonasSchema = yup
         .number()
+        .transform((value) => (isNaN(value) ? undefined : value))
         .positive()
         .integer()
-        .required("La cantidad de personas es obligatoria")
         .min(20, "Mínimo se requieren 20 invitados")
-        .max(capacidad, `La capacidad máxima del salón es ${capacidad} personas`);
+        .max(capacidad, `La capacidad máxima del salón es ${capacidad} personas`)
+        .required("La cantidad de personas es obligatoria");
 
         const updatedSchema = initialSchema.concat(
           yup.object().shape({
@@ -192,147 +199,155 @@ export default function Reserva() {
       <div className="header-container">
         <header>
           <h1>Reservas</h1>
+          {error && <p>No es posible reservar en este momento</p>}
         </header>
       </div>
-      <Container id="reserva" className="reserva-container my-5">
-        <header>
-          <h1 className="text-center mb-4">Reserva tu evento</h1>
-        </header>
-        <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={6}>
-            <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group controlId="titulo" className="mb-3">
-                <Form.Label>Titulo de tu evento</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="titulo de tu evento"
-                  {...register("titulo")}
-                  isInvalid={!!errors.titulo}
-                />
-                {error && <div className="invalid-feedback d-block">{error}</div>}
-              </Form.Group>
 
-              <Form.Group controlId="salonId" className="mb-3">
-                <Form.Label>Salón</Form.Label>
-                <Form.Select
-                  {...register("salonId")}
-                  isInvalid={!!errors.salonId}
-                  onChange={(e) => setSalonSeleccionado(e.target.value)}
-                >
-                  <option value="">Selecciona un salón</option>
-                  {salones.map((salon) => (
-                    <option key={salon.id} value={salon.id}>
-                      {salon.nombre} 
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
+      {!error && (
+      <>
+        <Container id="reserva" className="reserva-container my-5">
+          <header>
+            <h1 className="text-center mb-4">Reserva tu evento</h1>
+          </header>
+          <Row className="justify-content-center">
+            <Col xs={12} md={8} lg={6}>
+              <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group controlId="titulo" className="mb-3">
+                  <Form.Label>Titulo de tu evento</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="titulo de tu evento"
+                    {...register("titulo")}
+                    isInvalid={!!errors.titulo}
+                  />
+                  {error && <div className="invalid-feedback d-block">{error}</div>}
+                </Form.Group>
 
-              <hr />
-
-              <div>
-              <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRECIO SALON: ${precioSalon} </p>
-              </div>
-
-              <hr />
-
-              <Form.Group controlId="franjaHoraria" className="mb-3">
-                <Form.Label>Franja Horaria</Form.Label>
-                <Form.Select
-                    {...register("franjaHoraria")}
-                    isInvalid={!!errors.franjaHoraria}
-                    onChange={(e) => setFranjaHorariaSeleccionada(e.target.value)}
-                    >
-                    <option value="">Selecciona una franja horaria</option>
-                    <option value="Mediodia">Mediodía</option>
-                    <option value="Tarde">Tarde</option>
-                    <option value="Noche">Noche</option>
-                </Form.Select>
-              </Form.Group>
-              
-              <Form.Group controlId="fecha" className="mb-3">
-                <Form.Label>Fecha del Evento</Form.Label>
-                <DatePicker
-                  selected={fechaSeleccionada}
-                  onChange={(date) => {setFechaSeleccionada(date); setValue("fecha", date);}}
-                  filterDate={(date) => !isDayDisabled(date)}
-                  minDate={new Date()}
-                  maxDate={fechaLimite}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control"
-                />
-                {errors.fecha && <div className="invalid-feedback d-block">{errors.fecha.message}</div>}
-              </Form.Group>
-
-              <Form.Group controlId="horaExtra" className="mb-3">
-                <Form.Check
-                    type="checkbox"
-                    label="Agregar hora extra"
-                    {...register("horaExtra")}
-                    
-                />
+                <Form.Group controlId="salonId" className="mb-3">
+                  <Form.Label>Salón</Form.Label>
+                  <Form.Select
+                    {...register("salonId")}
+                    isInvalid={!!errors.salonId}
+                    onChange={(e) => setSalonSeleccionado(e.target.value)}
+                  >
+                    <option value="">Selecciona un salón</option>
+                    {salones.map((salon) => (
+                      <option key={salon.id} value={salon.id}>
+                        {salon.nombre} 
+                      </option>
+                    ))}
+                  </Form.Select>
                 </Form.Group>
 
                 <hr />
 
-              <div>
-                <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRECIO HORA EXTRA: ${precioHoraExtra} </p>
-              </div>
+                <div>
+                <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRECIO SALON: ${precioSalon} </p>
+                </div>
 
-              <hr />
+                <hr />
 
-              <Form.Group controlId="cantidadPersonas" className="mb-3">
-                <Form.Label>Cantidad de Personas</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="cantidad de personas"
-                  {...register("cantidadPersonas")}
-                  isInvalid={!!errors.cantidadPersonas}
-                />
-                {errors.cantidadPersonas && (
-                  <div className="invalid-feedback d-block">
-                    {errors.cantidadPersonas.message}
-                  </div>
-                )}
-              </Form.Group>
+                <Form.Group controlId="franjaHoraria" className="mb-3">
+                  <Form.Label>Franja Horaria</Form.Label>
+                  <Form.Select
+                      {...register("franjaHoraria")}
+                      isInvalid={!!errors.franjaHoraria}
+                      onChange={(e) => setFranjaHorariaSeleccionada(e.target.value)}
+                      >
+                      <option value="">Selecciona una franja horaria</option>
+                      <option value="Mediodia">Mediodía</option>
+                      <option value="Tarde">Tarde</option>
+                      <option value="Noche">Noche</option>
+                  </Form.Select>
+                </Form.Group>
+                
+                <Form.Group controlId="fecha" className="mb-3">
+                  <Form.Label>Fecha del Evento</Form.Label>
+                  <DatePicker
+                    selected={fechaSeleccionada}
+                    onChange={(date) => {setFechaSeleccionada(date); setValue("fecha", date);}}
+                    filterDate={(date) => !isDayDisabled(date)}
+                    minDate={new Date()}
+                    maxDate={fechaLimite}
+                    dateFormat="dd/MM/yyyy"
+                    className="form-control"
+                  />
+                  {errors.fecha && <div className="invalid-feedback d-block">{errors.fecha.message}</div>}
+                </Form.Group>
 
-              <hr />
+                <Form.Group controlId="horaExtra" className="mb-3">
+                  <Form.Check
+                      type="checkbox"
+                      label="Agregar hora extra"
+                      {...register("horaExtra")}
+                      
+                  />
+                  </Form.Group>
 
-              <div>
-              <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRESUPUESTO TOTAL: ${presupuestoTotal} </p>
-              </div>
+                  <hr />
 
-              <Button variant="primary" type="submit" className="w-100">
-                Continuar
-              </Button>
-            </Form>
-            {error && (
-              <Alert variant="danger" className="mt-3">
-                {error.message}
-              </Alert>
-            )}
-          </Col>
-        </Row>
-      </Container>
+                <div>
+                  <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRECIO HORA EXTRA: ${precioHoraExtra} </p>
+                </div>
+
+                <hr />
+
+                <Form.Group controlId="cantidadPersonas" className="mb-3">
+                  <Form.Label>Cantidad de Personas</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="cantidad de personas"
+                    {...register("cantidadPersonas")}
+                  />
+                  {errors.cantidadPersonas && (
+                    <p className="error-message">{errors.cantidadPersonas.message}</p>
+                  )}
+                </Form.Group>
+
+                <hr />
+
+                <div>
+                <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRESUPUESTO TOTAL: ${presupuestoTotal} </p>
+                </div>
+
+                <Button variant="primary" type="submit" className="w-100">
+                  Continuar
+                </Button>
+              </Form>
+              {error && (
+                <Alert variant="danger" className="mt-3">
+                  {error.message}
+                </Alert>
+              )}
+            </Col>
+          </Row>
+        </Container>
 
       
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmar Reserva</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>¿Deseas confirmar esta reserva o agregar servicios adicionales?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleConfirmarReserva}>
-            Confirmar Reserva
-          </Button>
-          <Button variant="secondary" onClick={handleAgregarServicios}>
-            Agregar Servicios
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal 
+        show={showModal} 
+        onHide={() => setShowModal(false)}
+        backdrop="static" 
+        keyboard={false}
+        >
+          <Modal.Header>
+            <Modal.Title>Confirmar Reserva</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>¿Deseas confirmar esta reserva o agregar servicios adicionales?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleConfirmarReserva}>
+              Confirmar Reserva
+            </Button>
+            <Button variant="primary" onClick={handleAgregarServicios}>
+              Agregar Servicios
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+      )}
     </>
   );
 }

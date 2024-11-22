@@ -1,0 +1,22 @@
+.logout-container {
+    height: 88vh; /* Asegura que ocupe toda la altura de la pantalla */
+    display: flex; /* Habilita el uso de Flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    background-color: #f8f9fa;  /* Fondo de color, puedes cambiarlo */
+  }
+  
+  .logout-form {
+    max-width: 400px;  /* Ancho máximo del formulario */
+    width: 100%;  /* El formulario ocupa el 100% del contenedor disponible */
+    background-color: white;  /* Fondo blanco para el formulario */
+    padding: 20px;  /* Espaciado alrededor del contenido */
+    border-radius: 8px;  /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+  }
+  
+  
+  
+
+  
+  

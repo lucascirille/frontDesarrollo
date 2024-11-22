@@ -105,7 +105,7 @@ export default function ReservaServicios() {
     return(
         <>
             <h3 className="mb-4">Servicios</h3>
-            {error && <div className="alert alert-danger">{error}</div>}
+            {error === "Debes seleccionar al menos un servicio." && <div className="alert alert-danger">{error}</div>}
             {console.log("Servicios seleccionados:", selectedServicios)}
             {servicios.length > 0 ? (
                 <Row>
@@ -132,7 +132,7 @@ export default function ReservaServicios() {
                     ))}
                 </Row>
             ) : (
-                <p>No hay servicios disponibles.</p>
+                <p>No hay servicios disponibles para este salon.</p>
             )}
 
             <hr/>

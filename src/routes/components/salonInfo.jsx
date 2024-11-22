@@ -19,6 +19,7 @@ export default function SalonInfo() {
                 const response = await getCaracteristicasBySalonId(id);
                 if (response.data && response.data.datos.length > 0) { 
                     setCaracteristicas(response.data.datos);
+                    console.log("Caracteristicas iniciales", response.data.datos);
                 } else {
                     console.log("No hay características disponibles para este salón.");
                 }
@@ -36,6 +37,7 @@ export default function SalonInfo() {
                 const response = await getServiciosBySalonId(id);
                 if (response.data && response.data.datos.length > 0) { 
                     setServicios(response.data.datos);
+                    console.log("Servicios iniciales", response.data.datos);
                 } else {
                     console.log("No hay servicios disponibles para este salón.");
                 }
@@ -47,6 +49,11 @@ export default function SalonInfo() {
         ObtenerServicios(id); 
     }, [id]);
 
+    const caracteristicasActivas = caracteristicas.filter(caracteristica => caracteristica.estado === true);
+    console.log("Caracteristicas activas", caracteristicasActivas);
+    const serviciosActivos = servicios.filter(servicio => servicio.servicio.estado === true);
+    console.log("Servicios Activos", serviciosActivos);
+
     return (
         <>
             <div className="salon-info-background p-4 mb-4">
@@ -55,22 +62,22 @@ export default function SalonInfo() {
 
                         <Col md={4} >
                             <h2 className="text-primary">{salon.nombre}</h2>
-                            <p><i className="fas fa-users"></i> <strong>Capacidad:</strong> {salon.capacidad} personas</p>
-                            <p><i className="fas fa-ruler-combined"></i> <strong>Dimensiones:</strong> {salon.dimensionesMt2} m²</p>
+                            <p><i className="fas fa-users"></i>  <strong>Capacidad:</strong> {salon.capacidad} personas</p>
+                            <p><i className="fas fa-ruler-combined"></i>  <strong>Dimensiones:</strong> {salon.dimensionesMt2} m²</p>
                         </Col>
                         <Col md={4} className="text-start mt-3">
-                            <p className="text-muted">Teléfono: {salon.telefono}</p>
-                            <p className="text-muted">Dirección: {salon.direccion}</p>
-                            <p className="text-muted">Localidad: {salon.localidad}</p>
+                            <p> <i className="fas fa-phone-alt"></i>  <strong>Teléfono:</strong> {salon.telefono}</p>
+                            <p><i className="fas fa-map-marker-alt"></i>  <strong>Dirección:</strong> {salon.direccion}</p>
+                            <p><i className="fas fa-city"></i>  <strong>Localidad:</strong> {salon.localidad}</p>
                         </Col>
                     </Row>
                 </Container>
             </div>
 
             <h3 className="mb-4">Características</h3>
-            {caracteristicas.length > 0 ? (
+            {caracteristicasActivas.length > 0 ? (
                 <Row>
-                    {caracteristicas.map((caracteristica, index) => (
+                    {caracteristicasActivas.map((caracteristica, index) => (
                         <Col md={4} key={index} className="mb-3">
                             <Card className="text-center shadow-sm">
                                 <Card.Body>
@@ -90,12 +97,12 @@ export default function SalonInfo() {
                 <p>No hay características disponibles.</p>
             )}
 
-            <hr style={{ margin: '20px 0', border: '1px solid #ccc', borderTop: '3px solid red' }} />
+            <hr className="my-4 border-0"/>
 
             <h3 className="mb-4">Servicios</h3>
-            {servicios.length > 0 ? (
+            {serviciosActivos.length > 0 ? (
                 <Row>
-                    {servicios.map((servicio, index) => (
+                    {serviciosActivos.map((servicio, index) => (
                         <Col md={4} key={index} className="mb-3">
                             <Card className="border-success shadow-lg p-4 text-start">
                                 <Card.Body>

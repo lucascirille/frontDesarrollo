@@ -80,43 +80,47 @@ export default function Sociales() {
             <div id="home" className="sociales-container">
                 <header>
                     <h1>Eventos Sociales</h1>
+                    {error && <p>No hay eventos sociales cargados en el sistema</p>}
                 </header>
             </div>
-            <h3>Todos los eventos sociales</h3>
 
-            {error && <p className="text-danger">{error}</p>}
+            {!error && (
+            <>
+                <h3>Todos los eventos sociales</h3>
 
-            <div className="d-flex justify-content-center my-3">
-                <button className="btn btn-primary mx-2" onClick={mostrarEventosProximos}>Próximos</button>
-                <button className="btn btn-primary mx-2" onClick={mostrarEventosEsteMes}>Este mes</button>
-                <button className="btn btn-primary mx-2" onClick={mostrarEventosEstaSemana}>Esta semana</button>
-            </div>
-            
-            <div className="container mt-4">
-                <div className="row">
-                    {reservas.map((reserva) => (
-                        <div className="col-md-6 mb-3" key={reserva.id}>
-                            <div className="card h-100">
-                                <div className="row no-gutters">
-                                    <div className="col-md-4">
-                                        <img src={obtenerImagenAleatoria()} className="card-img" alt="evento social" />
-                                    </div>
-                                    <div className="col-md-8">
-                                        <div className="card-body">
-                                            <h5 className="card-title">{reserva.titulo}</h5>
-                                            <p className="card-text">Fecha: {reserva.fecha.split(" ")[0]}</p>
-                                            <p className="card-text">Franja Horaria: {reserva.franjaHoraria}</p>
-                                            <p className="card-text">Cantidad de Personas: {reserva.cantidadPersonas}</p>
-                                            <p className="card-text">Nombre del salon: {reserva.nombreSalon}</p>
-                                            {reserva.horaExtra && <p className="card-text text-muted">Incluye hora extra</p>}
+                <div className="d-flex justify-content-center my-3">
+                    <button className="btn btn-primary mx-2" onClick={mostrarEventosProximos}>Próximos</button>
+                    <button className="btn btn-primary mx-2" onClick={mostrarEventosEsteMes}>Este mes</button>
+                    <button className="btn btn-primary mx-2" onClick={mostrarEventosEstaSemana}>Esta semana</button>
+                </div>
+
+                <div className="container mt-4">
+                    <div className="row">
+                        {reservas.map((reserva) => (
+                            <div className="col-md-6 mb-3" key={reserva.id}>
+                                <div className="card h-100">
+                                    <div className="row no-gutters">
+                                        <div className="col-md-4">
+                                            <img src={obtenerImagenAleatoria()} className="card-img" alt="evento social" />
+                                        </div>
+                                        <div className="col-md-8">
+                                            <div className="card-body">
+                                                <h5 className="card-title">{reserva.titulo}</h5>
+                                                <p className="card-text">Fecha: {reserva.fecha.split(" ")[0]}</p>
+                                                <p className="card-text">Franja Horaria: {reserva.franjaHoraria}</p>
+                                                <p className="card-text">Cantidad de Personas: {reserva.cantidadPersonas}</p>
+                                                <p className="card-text">Nombre del salon: {reserva.nombreSalon}</p>
+                                                {reserva.horaExtra && <p className="card-text text-muted">Incluye hora extra</p>}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </>
+        )}
         </>
     );
 }

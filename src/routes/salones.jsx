@@ -15,11 +15,11 @@ const schema = yup.object({
     estado: yup.boolean().required(),
     telefono: yup.string()
     .required("Este campo es obligatorio")
-    .matches(/^\+?[0-9\s-]{10,15}$/, "Formato de teléfono no válido"),
-    capacidad: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().integer().required("Este campo es obligatorio"),
-    dimensionesMt2: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
-    precioBase: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
-    precioHora: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
+    .matches(/^\+?[0-9\s-]{10,16}$/, "Formato de teléfono no válido"),
+    capacidad: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").integer().min(50, 'La capacidad minima es 50 personas').max(500, 'La capacidad maxima es 500 personas').required("Este campo es obligatorio"),
+    dimensionesMt2: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").required("Este campo es obligatorio"),
+    precioBase: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").required("Este campo es obligatorio"),
+    precioHora: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").required("Este campo es obligatorio"),
     direccion: yup.string().required("Este campo es obligatorio"),
     localidad: yup.string().required("Este campo es obligatorio"),
     urlImagen: yup.string().required("Este campo es obligatorio"),
@@ -170,7 +170,7 @@ export default function Salones() {
                                     <Form.Label>Teléfono</Form.Label>
                                     <Form.Control
                                         type="tel"
-                                        placeholder="Teléfono"
+                                        placeholder="+99 99 9999 9999"
                                         {...register("telefono")}
                                     />
                                     {errors.telefono && <p className="error-message">{errors.telefono.message}</p>}
@@ -259,7 +259,7 @@ export default function Salones() {
                                     <Form.Label>Url de la imagen</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        placeholder="Url de la imagen"
+                                        placeholder="/images/ejemplo.jpg"
                                         {...register("urlImagen")}
                                     />
                                     {errors.urlImagen && <p className="error-message">{errors.urlImagen.message}</p>}
