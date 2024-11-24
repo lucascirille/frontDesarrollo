@@ -2,6 +2,7 @@ import '../styles/salonesCliente.css';
 import { useState, useEffect } from "react";
 import { getSalones } from "../helpers/salones/salonesService";
 import { useNavigate } from 'react-router-dom';
+import Footer from './components/footer';
 
 export default function SalonesCliente() {
 
@@ -38,21 +39,24 @@ export default function SalonesCliente() {
                     )}
                 </header>
             </div>
-            <div className="row">
-                {
-                    salonesActivos.map((salon) => (
-                        <div key={salon.id} className="col-md-4 mb-4">
-                            <div className="card shadow" style={{ width: "100%" }}>
-                                <img src={salon.urlImagen} className="card-img-top" alt={`Image for ${salon.nombre}`} />
-                                <div className="card-body">
-                                    <h5 className="card-title">{salon.nombre}</h5>
-                                    <a className="btn btn-primary" onClick={() => handleMoreInfo(salon)}>Más Información</a>
+            <div className="container">
+                <div className="row">
+                    {
+                        salonesActivos.map((salon) => (
+                            <div key={salon.id} className="col-md-4 mb-4 d-flex justify-content-center">
+                                <div className="card shadow" style={{ width: "100%" }}>
+                                    <img src={salon.urlImagen} className="card-img-top" alt={`Image for ${salon.nombre}`} />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{salon.nombre}</h5>
+                                        <a className="btn btn-primary" onClick={() => handleMoreInfo(salon)}>Más Información</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
-                }
+                        ))
+                    }
+                </div>
             </div>
+            <Footer />
         </>
     )
 }

@@ -8,10 +8,41 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-hr {
-    height: 2px;  
-    background: rgba(0, 123, 255, 1); 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    border-radius: 5px; 
-    border: none; 
+
+.caracteristicaCard {
+    background: rgb(189,255,191);
+    background: linear-gradient(90deg, rgba(189,255,191,1) 20%, rgba(255,225,209,1) 40%, rgba(244,179,255,1) 65%, rgba(189,245,255,1) 88%);
+}
+
+.servicioCard {
+    background: rgb(86,128,131);
+    background: linear-gradient(90deg, rgba(86,128,131,1) 20%, rgba(107,154,154,1) 40%, rgba(202,228,223,1) 65%);
+}
+
+.reservaServicioCard {
+    background: rgb(255,171,171);
+    background: linear-gradient(90deg, rgba(255,171,171,1) 20%, rgba(180,222,219,1) 40%, rgba(255,255,255,1) 65%);
+}
+
+.styled-hr {
+    display: flex;
+    align-items: center;
+    color: #007bff;
+    margin: 20px 0;
+}
+
+.styled-hr::before,
+.styled-hr::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: #007bff;
+}
+
+.styled-hr::before {
+    margin-right: 10px;
+}
+
+.styled-hr::after {
+    margin-left: 10px;
 }

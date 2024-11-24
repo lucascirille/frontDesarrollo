@@ -3,7 +3,6 @@ import React, { useEffect, useState, useContext } from 'react';
 import { getServiciosBySalonId } from '../../helpers/salones/salonesService';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import '../../styles/salonInfo.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import { GetReservaIdByReservaNombre } from '../../helpers/reserva/reservaService'
 import { createReservaServicio } from '../../helpers/reservaServicio/reservaServicioService'
 import { AuthContext } from '../../context/AuthContext';
@@ -108,12 +107,11 @@ export default function ReservaServicios() {
             {error === "Debes seleccionar al menos un servicio." && <div className="alert alert-danger">{error}</div>}
             {console.log("Servicios seleccionados:", selectedServicios)}
             {servicios.length > 0 ? (
-                <Row>
+                <Row className="justify-content-center">
                     {servicios.map((servicio) => (
                         <Col md={4} key={servicio.servicio.id} className="mb-3">
-                            <Card className="border-success shadow-lg p-4 text-start">
+                            <Card className="reservaServicioCard border-success shadow-lg p-4 text-start">
                                 <Card.Body>
-                                    <i className="fas fa-gamepad fa-2x"></i> 
                                     <Card.Title className="mt-2">{servicio.servicio.nombre}</Card.Title>
                                     <Card.Text className="small">{servicio.servicio.descripcion}</Card.Text>
                                     <Card.Text className="small">Precio: {servicio.precio}</Card.Text>

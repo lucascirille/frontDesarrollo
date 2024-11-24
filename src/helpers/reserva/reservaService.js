@@ -71,7 +71,7 @@ export async function getFechasOcupadas(salonId, franjaHoraria) {
     } catch (error) {
         if (error.response?.status === 400) {
             console.warn("No se encontraron reservas para el salón y franja horaria especificados.");
-            return [];
+            throw new Error(error.response.data.mensaje);
         }
         console.error("Error al obtener las fechas ocupadas:", error);
         throw new Error(error.response?.data?.mensaje || "Error desconocido al obtener fechas ocupadas");

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GetReservasDeSalonesCorporativos } from '../helpers/reserva/reservaService'
 import '../styles/coorporativos.css';
 import imagenes from '../helpers/reserva/imagenes';
+import Footer from './components/footer';
 
 export default function Coorporativos() {
     const [reservasOriginales, setReservasOriginales] = useState([]);
@@ -108,10 +109,9 @@ export default function Coorporativos() {
                                         <div className="col-md-8">
                                             <div className="card-body">
                                                 <h5 className="card-title">{reserva.titulo}</h5>
-                                                <p className="card-text">Fecha: {reserva.fecha.split(" ")[0]}</p>
-                                                <p className="card-text">Franja Horaria: {reserva.franjaHoraria}</p>
-                                                <p className="card-text">Cantidad de Personas: {reserva.cantidadPersonas}</p>
-                                                <p className="card-text">Nombre del salon: {reserva.nombreSalon}</p>
+                                                <p className="card-text"><strong>Fecha:</strong> {reserva.fecha.split(" ")[0]}</p>
+                                                <p className="card-text"><strong>Franja Horaria:</strong> {reserva.franjaHoraria}</p>
+                                                <p className="card-text"><strong>Salon:</strong> {reserva.nombreSalon}</p>
                                                 {reserva.horaExtra && <p className="card-text text-muted">Incluye hora extra</p>}
                                             </div>
                                         </div>
@@ -123,6 +123,7 @@ export default function Coorporativos() {
                 </div>
                 </>
             )}
+            <Footer />
         </>
     )
 }

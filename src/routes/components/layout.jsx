@@ -31,7 +31,7 @@ export default function Layout({ children }) {
       <nav className={`${navbarClass} navbar navbar-expand-lg fixed-top`}>
         <div className="container-fluid">
           <Link className="navbar-brand" to={"/"}>
-            <img src="/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />
+            <img src="/images/alconMilenial.png" alt="EventCraft" style={{ height: '40px' }} />
             <span style={{ marginLeft: '8px', fontSize: '24px', fontWeight: 'bold' }}>EventCraft</span>
           </Link>
           {user && (

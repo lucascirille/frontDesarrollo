@@ -9,11 +9,8 @@ export default function Footer() {
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav mx-auto d-flex flex-row"> 
               <li className="nav-item">
-                <img src="/images/ms-icon-144x144.png" alt="EventCraft" style={{ height: '40px' }} />
+                <img src="/images/alconMilenial.png" alt="EventCraft" style={{ height: '40px' }} />
                 <span style={{ marginLeft: '8px', fontSize: '24px', fontWeight: 'bold' }}>EventCraft</span>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/perfil"}>Perfil</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/nosotros"}>Nosotros</Link>
@@ -31,6 +28,11 @@ export default function Footer() {
           </div>
         </nav>
       </div>
+
+      <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+        &copy; 2024 EventCraft Copyright: Todos los derechos reservados
+      </div>
+
     </footer>
   );
 }

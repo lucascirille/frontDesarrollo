@@ -12,6 +12,7 @@ import { AuthContext } from '../context/AuthContext';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { parseISO, startOfDay } from 'date-fns';
+import Footer from './components/footer';
 
 const initialSchema = yup.object().shape({
   titulo: yup.string().required("El nombre es obligatorio"),
@@ -163,7 +164,6 @@ export default function Reserva() {
         } catch (error) {
           console.error("Error al obtener las fechas ocupadas:", error);
           setFechasOcupadas([]);
-          console.log("Este es mi array vacio", fechasOcupadas)
         }
       }
       obtenerFechasOcupadas();
@@ -348,6 +348,7 @@ export default function Reserva() {
         </Modal>
       </>
       )}
+      <Footer />
     </>
   );
 }

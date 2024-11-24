@@ -3,7 +3,6 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import { getCaracteristicasBySalonId, getServiciosBySalonId } from '../../helpers/salones/salonesService';
 import { Card, Button, Row, Col, Container } from 'react-bootstrap';
 import '../../styles/salonInfo.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function SalonInfo() {
     const { id } = useParams();
@@ -76,16 +75,11 @@ export default function SalonInfo() {
 
             <h3 className="mb-4">Características</h3>
             {caracteristicasActivas.length > 0 ? (
-                <Row>
+                <Row className="justify-content-center">
                     {caracteristicasActivas.map((caracteristica, index) => (
                         <Col md={4} key={index} className="mb-3">
-                            <Card className="text-center shadow-sm">
+                            <Card className="caracteristicaCard text-center shadow-sm">
                                 <Card.Body>
-                                    <img
-                                        src={"/images/donut.png"} 
-                                        style={{ width: '50px', height: '50px' }} 
-                                        alt={caracteristica.nombre}
-                                    />
                                     <Card.Title className="mt-2">{caracteristica.nombre}</Card.Title>
                                     <Card.Text>{caracteristica.descripcion}</Card.Text>
                                 </Card.Body>
@@ -97,16 +91,17 @@ export default function SalonInfo() {
                 <p>No hay características disponibles.</p>
             )}
 
-            <hr className="my-4 border-0"/>
+            <div className="styled-hr">
+                <i className="fas fa-star"></i>
+            </div>
 
             <h3 className="mb-4">Servicios</h3>
             {serviciosActivos.length > 0 ? (
-                <Row>
+                <Row className="justify-content-center">
                     {serviciosActivos.map((servicio, index) => (
                         <Col md={4} key={index} className="mb-3">
-                            <Card className="border-success shadow-lg p-4 text-start">
+                            <Card className="servicioCard border-success shadow-lg p-4 text-start">
                                 <Card.Body>
-                                    <i className="fas fa-gamepad fa-2x"></i> 
                                     <Card.Title className="mt-2">{servicio.servicio.nombre}</Card.Title>
                                     <Card.Text className="small">{servicio.servicio.descripcion}</Card.Text>
                                     <Card.Text className="small">Precio: {servicio.precio}</Card.Text> 

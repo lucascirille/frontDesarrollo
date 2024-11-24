@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }) => {
         setError(null);
         try {
             const userInfo = await login(userData);
-            console.log("estoy en inicio de sesion", userInfo);
 
             localStorage.setItem("user", JSON.stringify(userInfo.userData));
             localStorage.setItem("userId", userInfo.userData.id);
