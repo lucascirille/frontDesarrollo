@@ -14,7 +14,7 @@ import '../styles/errors.css'
 const schema = yup.object({
     salonId: yup.string().required("Este campo es obligatorio"),
     caracteristicaId: yup.string().required("Este campo es obligatorio"),
-    valor: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().integer().required("Este campo es obligatorio"),
+    valor: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor positivo").integer().max(9999, "El valor no puede exceder 4 dígitos").required("Este campo es obligatorio"),
   }).required();
 
 export default function SalonCaracteristicas() {
@@ -208,22 +208,26 @@ export default function SalonCaracteristicas() {
                         </div>
                     </Form>
                     </>
-                )}
+                )} 
 
                 {showsalonesCaracteristicas && !formVisible && salonesCaracteristicas && (
                     <div>
-                        {salonesCaracteristicas.map((salonCaracteristica) => (
-                            <div key={salonCaracteristica.id}>
-                                <hr />
-                                <ul>
-                                    <li>SalonId: {salonCaracteristica.salonId}</li>
-                                    <li>CaracteristicaId: {salonCaracteristica.caracteristicaId}</li>
-                                    <li>Valor: {salonCaracteristica.valor}</li>
-                                </ul>
-                                <Button variant="danger" onClick={() => handleDeleteSalonCaracteristica(salonCaracteristica.id)}>Eliminar</Button>
-                                <Button variant="warning" className="ms-2" onClick={() => handleEditSalonCaracteristica(salonCaracteristica)}>Editar</Button>
-                            </div>
-                        ))}
+                        {salonesCaracteristicas.map((salonCaracteristica) => {
+                            const salonNombre = salones.find(salon => salon.id === salonCaracteristica.salonId)?.nombre || "Desconocido";
+                            const caracteristicaNombre = caracteristicas.find(caracteristica => caracteristica.id === salonCaracteristica.caracteristicaId)?.nombre || "Desconocido";
+                            return (
+                                <div key={salonCaracteristica.id}>
+                                    <hr />
+                                    <ul>
+                                        <li>Salon: {salonNombre}</li>
+                                        <li>Caracteristica: {caracteristicaNombre}</li>
+                                        <li>Valor: {salonCaracteristica.valor}</li>
+                                    </ul>
+                                    <Button variant="danger" onClick={() => handleDeleteSalonCaracteristica(salonCaracteristica.id)}>Eliminar</Button>
+                                    <Button variant="warning" className="ms-2" onClick={() => handleEditSalonCaracteristica(salonCaracteristica)}>Editar</Button>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
 

@@ -17,9 +17,9 @@ const schema = yup.object({
     .required("Este campo es obligatorio")
     .matches(/^\+?[0-9\s-]{10,16}$/, "Formato de teléfono no válido"),
     capacidad: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").integer().min(50, 'La capacidad minima es 50 personas').max(500, 'La capacidad maxima es 500 personas').required("Este campo es obligatorio"),
-    dimensionesMt2: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").required("Este campo es obligatorio"),
-    precioBase: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").required("Este campo es obligatorio"),
-    precioHora: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").required("Este campo es obligatorio"),
+    dimensionesMt2: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").max(99999, "El valor no puede exceder 5 dígitos").required("Este campo es obligatorio"),
+    precioBase: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").max(9999, "El valor no puede exceder 4 dígitos").required("Este campo es obligatorio"),
+    precioHora: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor mayor que 0").max(9999, "El valor no puede exceder 4 dígitos").required("Este campo es obligatorio"),
     direccion: yup.string().required("Este campo es obligatorio"),
     localidad: yup.string().required("Este campo es obligatorio"),
     urlImagen: yup.string().required("Este campo es obligatorio"),

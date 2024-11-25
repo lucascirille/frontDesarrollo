@@ -18,7 +18,13 @@ const initialSchema = yup.object().shape({
     fecha: yup.date().required("La fecha es obligatoria").min(new Date(), "La fecha no puede ser en el pasado"),
     franjaHoraria: yup.string().required("El nombre es obligatorio"),
     horaExtra: yup.boolean().required(),
-    cantidadPersonas: yup.number().positive().integer().required("La cantidad de personas es obligatoria").min(20,"Minimo se requieren 20 invitados"),
+    cantidadPersonas: yup
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .positive()
+    .integer()
+    .required("La cantidad de personas es obligatoria")
+    .min(20,"Minimo se requieren 20 invitados"),
     salonId: yup.string().required("Debes seleccionar un tipo de evento"),
     usuarioId: yup.string().required("Debes seleccionar un usuario"),
   });
@@ -92,6 +98,7 @@ export default function ReservaAdmin() {
     
             const cantidadPersonasSchema = yup
             .number()
+            .transform((value) => (isNaN(value) ? undefined : value))
             .positive()
             .integer()
             .required("La cantidad de personas es obligatoria")
@@ -341,22 +348,26 @@ export default function ReservaAdmin() {
                 )}
 
                 {showReservas && !formVisible && reservas && (
-                    <div>
-                        {reservas.map((reserva) => (
-                            <div key={reserva.id}>
-                                <hr />
-                                <h3>{reserva.titulo}</h3>
-                                <ul>
-                                    <li>Fecha: {reserva.fecha.split(" ")[0]}</li>
-                                    <li>Franja Horaria: {reserva.franjaHoraria}</li>
-                                    <li>Cantidad de Personas: {reserva.cantidadPersonas}</li>
-                                    <li>salonId: {reserva.salonId}</li>
-                                    <li>usuarioId: {reserva.usuarioId}</li>
-                                </ul>
-                                <Button variant="danger" onClick={() => handleDeleteReserva(reserva.id)}>Eliminar</Button>
-                                <Button variant="warning" className="ms-2" onClick={() => handleEditReserva(reserva)}>Editar</Button>
-                            </div>
-                        ))}
+                    <div> 
+                        {reservas.map((reserva) => {
+                            const salonNombre = salones.find(salon => salon.id === reserva.salonId)?.nombre || "Desconocido";
+                            const usuarioNombre = usuarios.find(usuario => usuario.id === reserva.usuarioId)?.nombreUsuario || "Desconocido";
+                            return (
+                                <div key={reserva.id}>
+                                    <hr />
+                                    <h3>{reserva.titulo}</h3>
+                                    <ul>
+                                        <li>Fecha: {reserva.fecha.split(" ")[0]}</li>
+                                        <li>Franja Horaria: {reserva.franjaHoraria}</li>
+                                        <li>Cantidad de Personas: {reserva.cantidadPersonas}</li>
+                                        <li>salon: {salonNombre}</li>
+                                        <li>usuarioId: {usuarioNombre}</li>
+                                    </ul>
+                                    <Button variant="danger" onClick={() => handleDeleteReserva(reserva.id)}>Eliminar</Button>
+                                    <Button variant="warning" className="ms-2" onClick={() => handleEditReserva(reserva)}>Editar</Button>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
 

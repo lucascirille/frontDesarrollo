@@ -14,7 +14,7 @@ import '../styles/errors.css'
 const schema = yup.object({
     reservaId: yup.string().required("Este campo es obligatorio"),
     servicioId: yup.string().required("Este campo es obligatorio"),
-    precio: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
+    precio: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().max(9999, "El precio no puede exceder 4 dígitos").required("Este campo es obligatorio"),
   }).required();
 
 export default function ReservaServiciosAdmin() {
@@ -211,18 +211,22 @@ export default function ReservaServiciosAdmin() {
 
                 {showReservaServicios && !formVisible && reservaServicios && (
                     <div>
-                        {reservaServicios.map((reservaServicio) => (
-                            <div key={reservaServicio.id}>
-                                <hr />
-                                <ul>
-                                    <li>ReservaId: {reservaServicio.reservaId}</li>
-                                    <li>ServicioId: {reservaServicio.servicioId}</li>
-                                    <li>Precio: {reservaServicio.precio}</li>
-                                </ul>
-                                <Button variant="danger" onClick={() => handleDeleteReservaServicio(reservaServicio.id)}>Eliminar</Button>
-                                <Button variant="warning" className="ms-2" onClick={() => handleEditReservaServicio(reservaServicio)}>Editar</Button>
-                            </div>
-                        ))}
+                        {reservaServicios.map((reservaServicio) => {
+                            const reservaNombre = reservas.find(reserva => reserva.id === reservaServicio.reservaId)?.titulo || "Desconocido";
+                            const servicioNombre = servicios.find(servicio => servicio.id === reservaServicio.servicioId)?.nombre || "Desconocido";
+                            return (
+                                <div key={reservaServicio.id}>
+                                    <hr />
+                                    <ul>
+                                        <li>Reserva: {reservaNombre}</li>
+                                        <li>Servicio: {servicioNombre}</li>
+                                        <li>Precio: {reservaServicio.precio}</li>
+                                    </ul>
+                                    <Button variant="danger" onClick={() => handleDeleteReservaServicio(reservaServicio.id)}>Eliminar</Button>
+                                    <Button variant="warning" className="ms-2" onClick={() => handleEditReservaServicio(reservaServicio)}>Editar</Button>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
 

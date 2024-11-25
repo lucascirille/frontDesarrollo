@@ -14,7 +14,7 @@ import '../styles/errors.css'
 const schema = yup.object({
     salonId: yup.string().required("Este campo es obligatorio"),
     servicioId: yup.string().required("Este campo es obligatorio"),
-    precio: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().required("Este campo es obligatorio"),
+    precio: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().max(9999, "El precio no puede exceder 4 dígitos").required("Este campo es obligatorio"),
   }).required();
 
 export default function SalonServicios() {
@@ -213,18 +213,22 @@ export default function SalonServicios() {
 
                 {showsalonesServicios && !formVisible && salonesServicios && (
                     <div>
-                        {salonesServicios.map((salonServicio) => (
-                            <div key={salonServicio.id}>
-                                <hr />
-                                <ul>
-                                    <li>SalonId: {salonServicio.salonId}</li>
-                                    <li>ServicioId: {salonServicio.servicioId}</li>
-                                    <li>Precio: {salonServicio.precio}</li>
-                                </ul>
-                                <Button variant="danger" onClick={() => handleDeleteSalonServicio(salonServicio.id)}>Eliminar</Button>
-                                <Button variant="warning" className="ms-2" onClick={() => handleEditSalonServicio(salonServicio)}>Editar</Button>
-                            </div>
-                        ))}
+                        {salonesServicios.map((salonServicio) => {
+                            const salonNombre = salones.find(salon => salon.id === salonServicio.salonId)?.nombre || "Desconocido";
+                            const servicioNombre = servicios.find(servicio => servicio.id === salonServicio.servicioId)?.nombre || "Desconocido";
+                            return (
+                                <div key={salonServicio.id}>
+                                    <hr />
+                                    <ul>
+                                        <li>Salon: {salonNombre}</li>
+                                        <li>Servicio: {servicioNombre}</li>
+                                        <li>Precio: {salonServicio.precio}</li>
+                                    </ul>
+                                    <Button variant="danger" onClick={() => handleDeleteSalonServicio(salonServicio.id)}>Eliminar</Button>
+                                    <Button variant="warning" className="ms-2" onClick={() => handleEditSalonServicio(salonServicio)}>Editar</Button>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
 
