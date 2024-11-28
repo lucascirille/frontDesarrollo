@@ -46,6 +46,7 @@ export default function Reserva() {
   const [precioHoraExtra, setPrecioHoraExtra] = useState(0); 
   const [presupuestoTotal, setPresupuestoTotal] = useState(0);
   const [nombreReserva, setNombreReserva] = useState('');
+  const [fechaReserva, setFechaReserva] = useState('');
 
 
   const {
@@ -76,6 +77,7 @@ export default function Reserva() {
         setError("");
         setShowModal(true);
         setNombreReserva(data.titulo);
+        setFechaReserva(formattedDate);
     } catch (error) {
         console.error("Error al crear la reserva:", error);
         setError(error.message);
@@ -184,7 +186,7 @@ export default function Reserva() {
 
     navigate('/reservaServicios',
     {
-      state: { salonId: idDelSalon, nombreReserva }
+      state: { salonId: idDelSalon, nombreReserva, fechaReserva }
     });
   };
 

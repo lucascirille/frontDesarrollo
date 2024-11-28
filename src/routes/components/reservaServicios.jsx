@@ -3,22 +3,28 @@ import React, { useEffect, useState, useContext } from 'react';
 import { getServiciosBySalonId } from '../../helpers/salones/salonesService';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import '../../styles/salonInfo.css';
-import { GetReservaIdByReservaNombre } from '../../helpers/reserva/reservaService'
-import { createReservaServicio } from '../../helpers/reservaServicio/reservaServicioService'
+import { GetReservaIdByReservaNombre } from '../../helpers/reserva/reservaService';
+import { createReservaServicio } from '../../helpers/reservaServicio/reservaServicioService';
 import { AuthContext } from '../../context/AuthContext';
+import { getTrabajadoresByProfesion } from '../../helpers/apisDeTerceros/trabajadores';
+import TrabajadoresModal from './trabajadoresModal';
 
 export default function ReservaServicios() {
     const { auth } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const { salonId, nombreReserva } = location.state || {};
+    const { salonId, nombreReserva, fechaReserva } = location.state || {};
     const [servicios, setServicios] = useState([]);
     const [error, setError] = useState('');
     const [selectedServicios, setSelectedServicios] = useState({});
     const [totalCargoAdicional, setTotalCargoAdicional] = useState(0);
+    const [profesionSeleccionada, setProfesionSeleccionada] = useState(null);
+    const [trabajadores, setTrabajadores] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     console.log("ID del Salón:", salonId);
     console.log("Nombre de la Reserva:", nombreReserva);
+    console.log("Fecha de la reserva: ", fechaReserva);
 
     useEffect(() => {
         async function ObtenerServicios(salonId) {
@@ -101,6 +107,27 @@ export default function ReservaServicios() {
     const handleCancel = () => {
         navigate('/'); 
     };
+
+    const handleVerTrabajadores = async (profesion) => {
+        try {
+            const response = await getTrabajadoresByProfesion(profesion);
+            const trabajadores = JSON.parse(response); // Convertir JSON a objetos
+
+            const trabajadoresOrdenados = trabajadores.sort((a, b) => b.estrellas - a.estrellas);
+            const topTrabajadores = trabajadoresOrdenados.slice(0, 2);
+
+            setTrabajadores(topTrabajadores);
+            setProfesionSeleccionada(profesion);
+            setShowModal(true);
+        } catch (error) {
+            console.error("Error al obtener los trabajadores:", error);
+            setError("No se pudieron cargar los trabajadores.");
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
     return(
         <>
             <h3 className="mb-4">Servicios</h3>
@@ -124,6 +151,14 @@ export default function ReservaServicios() {
                                         />
                                         <label htmlFor={`checkbox-${servicio.servicio.id}`} className="ms-2">Seleccionar</label>
                                     </div>
+                                    <Button
+                                        variant="outline-dark" 
+                                        size="sm"
+                                        onClick={() => handleVerTrabajadores(servicio.servicio.nombre)}
+                                        
+                                    >
+                                        Ver trabajadores
+                                    </Button>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -142,6 +177,13 @@ export default function ReservaServicios() {
                 <Button variant="success" onClick={handleConfirm} className="me-2">Confirmar Servicios</Button>
                 <Button variant="danger" onClick={handleCancel}>Cancelar</Button>
             </div>
+
+            <TrabajadoresModal
+                show={showModal}
+                handleClose={handleCloseModal}
+                trabajadores={trabajadores}
+                profesion={profesionSeleccionada}
+            />
         </>
     )
 }
