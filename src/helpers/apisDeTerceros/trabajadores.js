@@ -67,11 +67,11 @@ export const getTrabajadoresByProfesion = (profesion) => {
             ];
             
 
-            // Filtrar los trabajadores por la profesión solicitada
+            
             const trabajadoresFiltrados = trabajadoresMock.filter(t => t.profesion === profesion);
 
-            // Convertir a JSON antes de resolver
+            
             resolve(JSON.stringify(trabajadoresFiltrados));
-        }, 1000); // Simula un retraso de 1 segundo
+        }, 1000); 
     });
 };

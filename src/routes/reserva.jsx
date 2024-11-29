@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { parseISO, startOfDay } from 'date-fns';
 import Footer from './components/footer';
+import { getDescuento } from '../helpers/apisDeTerceros/cupones'
 
 const initialSchema = yup.object().shape({
   titulo: yup.string().required("El nombre es obligatorio"),
@@ -47,6 +48,10 @@ export default function Reserva() {
   const [presupuestoTotal, setPresupuestoTotal] = useState(0);
   const [nombreReserva, setNombreReserva] = useState('');
   const [fechaReserva, setFechaReserva] = useState('');
+  const [cupon, setCupon] = useState('');
+  const [descuento, setDescuento] = useState('');
+  const [mensajeCupon, setMensajeCupon] = useState("");
+  const [cuponAplicado, setCuponAplicado] = useState(false);
 
 
   const {
@@ -194,6 +199,46 @@ export default function Reserva() {
   const fechaLimite = new Date();
   fechaLimite.setMonth(fechaLimite.getMonth() + 2);
 
+  const validarCupon = async () => {
+    if (cuponAplicado) {
+      setMensajeCupon("Ya se ha aplicado un cupón para esta reserva.");
+      return;
+    }
+
+    try {
+      const respuesta = await getDescuento(cupon);
+      console.log("Respuesta", respuesta);
+      const cuponData = JSON.parse(respuesta);
+  
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const fechaVencimiento = (() => {
+        const partes = cuponData.vencimiento.split("-");
+        return new Date(partes[0], partes[1] - 1, partes[2]); // Año, Mes (0 indexado), Día
+      })();
+  
+      if (cuponData.utilizado) {
+        setMensajeCupon("El cupón ya ha sido utilizado.");
+        setDescuento(0);
+      } else if (fechaVencimiento < hoy) {
+        setMensajeCupon("El cupón está vencido.");
+        setDescuento(0);
+      } else {
+        const descuentoAplicado = cuponData.descuento;
+        setMensajeCupon(`Cupón válido. Se aplicará un ${cuponData.descuento}% de descuento.`);
+        setDescuento(cuponData.descuento);
+
+        const nuevoPresupuesto = presupuestoTotal - (presupuestoTotal * descuentoAplicado) / 100;
+        setPresupuestoTotal(nuevoPresupuesto);
+        setCuponAplicado(true);
+      }
+    } catch (error) {
+      const errorData = JSON.parse(error); // Analiza el error en formato JSON
+      setMensajeCupon(errorData.error);
+      setDescuento(0);
+    }
+  };
+  
  
 
   return (
@@ -305,15 +350,37 @@ export default function Reserva() {
                     <p className="error-message">{errors.cantidadPersonas.message}</p>
                   )}
                 </Form.Group>
+                <Form.Group controlId="cupon" className="mb-3">
+                  <Form.Label>Cupón de Descuento</Form.Label>
+                  <div className="d-flex">
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingresa tu cupón"
+                      value={cupon}
+                      onChange={(e) => setCupon(e.target.value)}
+                      className="me-2"
+                      disabled={cuponAplicado}
+                    />
+                    <Button variant="secondary" onClick={validarCupon}>
+                      Validar
+                    </Button>
+                  </div>
+                  <div>{mensajeCupon && (
+                      <p style={{ color: mensajeCupon.includes("válido") ? "green" : "red", marginTop: "0.5rem" }}>
+                        {mensajeCupon}
+                      </p>
+                    )}</div>
+                </Form.Group>
+
 
                 <hr />
 
                 <div>
-                <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRESUPUESTO TOTAL: ${presupuestoTotal} </p>
+                <p style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "1rem" }}> PRESUPUESTO TOTAL: ${presupuestoTotal.toFixed(2)} </p>
                 </div>
 
                 <Button variant="primary" type="submit" className="w-100">
-                  Continuar
+                  Confirmar
                 </Button>
               </Form>
               {error && (
