@@ -19,7 +19,7 @@ export const getDescuento = (codigoCupon) => {
         { codigo: "DESC15", descuento: 15, vencimiento: "2024-10-15", utilizado: false }, // Vencido
         { codigo: "DESC05", descuento: 5, vencimiento: "2023-11-30", utilizado: false },  // Vencido
         { codigo: "DESC50", descuento: 50, vencimiento: "2024-12-31", utilizado: true },  // Utilizado
-        { codigo: "DESC30", descuento: 30, vencimiento: "2024-11-29", utilizado: false }, // Válido
+        { codigo: "DESC30", descuento: 30, vencimiento: "2024-12-07", utilizado: false }, // Válido
         { codigo: "BLACKFRIDAY", descuento: 40, vencimiento: "2024-11-28", utilizado: true }, // Utilizado
         { codigo: "CYBERMONDAY", descuento: 25, vencimiento: "2024-12-03", utilizado: false }, // Válido
         { codigo: "EXPIRED", descuento: 10, vencimiento: "2023-09-30", utilizado: false },   // Vencido

@@ -14,7 +14,7 @@ import '../styles/errors.css'
 const schema = yup.object({
     salonId: yup.string().required("Este campo es obligatorio"),
     servicioId: yup.string().required("Este campo es obligatorio"),
-    precio: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive().max(9999, "El precio no puede exceder 4 dígitos").required("Este campo es obligatorio"),
+    precio: yup.number().transform((value) => (isNaN(value) ? undefined : value)).positive("debe ser un valor positivo").max(999999, "El precio no puede exceder 4 dígitos").required("Este campo es obligatorio"),
   }).required();
 
 export default function SalonServicios() {

@@ -63,6 +63,7 @@ export default function SalonInfo() {
                             <h2 className="text-primary">{salon.nombre}</h2>
                             <p><i className="fas fa-users"></i>  <strong>Capacidad:</strong> {salon.capacidad} personas</p>
                             <p><i className="fas fa-ruler-combined"></i>  <strong>Dimensiones:</strong> {salon.dimensionesMt2} m²</p>
+                            <p><i className="fas fa-door-open"></i> <strong>Tipo:</strong> {salon.tipo}</p>
                         </Col>
                         <Col md={4} className="text-start mt-3">
                             <p> <i className="fas fa-phone-alt"></i>  <strong>Teléfono:</strong> {salon.telefono}</p>

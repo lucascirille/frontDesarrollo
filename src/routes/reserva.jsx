@@ -102,14 +102,6 @@ export default function Reserva() {
             setError("Error al obtener los datos.");
         }
     }
-    
-    anime({
-      targets: formRef.current,
-      opacity: [0, 1],
-      translateY: [-10, 0],
-      duration: 1000,
-      easing: 'easeOutQuad',
-    });
 
     ObtenerSalones();
   }, []);
@@ -233,24 +225,26 @@ export default function Reserva() {
         setCuponAplicado(true);
       }
     } catch (error) {
-      const errorData = JSON.parse(error); // Analiza el error en formato JSON
+      const errorData = JSON.parse(error);
       setMensajeCupon(errorData.error);
       setDescuento(0);
     }
   };
   
- 
+  const salonesActivos = salones.filter(salon => salon.estado === true);
 
   return (
     <>
       <div className="header-container">
         <header>
           <h1>Reservas</h1>
-          {error && <p>No es posible reservar en este momento</p>}
+          {salonesActivos.length === 0 && (
+            <span className="no-reservas-msg"> - No es posible reservar en este momento</span>
+          )}
         </header>
       </div>
 
-      {!error && (
+      {salonesActivos.length !== 0 && (
       <>
         <Container id="reserva" className="reserva-container my-5">
           <header>
@@ -278,9 +272,9 @@ export default function Reserva() {
                     onChange={(e) => setSalonSeleccionado(e.target.value)}
                   >
                     <option value="">Selecciona un salón</option>
-                    {salones.map((salon) => (
+                    {salonesActivos.map((salon) => (
                       <option key={salon.id} value={salon.id}>
-                        {salon.nombre} 
+                        {salon.nombre} ({salon.tipo})
                       </option>
                     ))}
                   </Form.Select>
@@ -302,9 +296,9 @@ export default function Reserva() {
                       onChange={(e) => setFranjaHorariaSeleccionada(e.target.value)}
                       >
                       <option value="">Selecciona una franja horaria</option>
-                      <option value="Mediodia">Mediodía</option>
-                      <option value="Tarde">Tarde</option>
-                      <option value="Noche">Noche</option>
+                      <option value="Mediodia">Mediodía (13:00 - 16:00)</option>
+                      <option value="Tarde">Tarde (18:00 - 21:00)</option>
+                      <option value="Noche">Noche (23:00 - 02:00)</option>
                   </Form.Select>
                 </Form.Group>
                 
@@ -383,11 +377,6 @@ export default function Reserva() {
                   Confirmar
                 </Button>
               </Form>
-              {error && (
-                <Alert variant="danger" className="mt-3">
-                  {error.message}
-                </Alert>
-              )}
             </Col>
           </Row>
         </Container>
