@@ -57,7 +57,7 @@ export default function Home() {
                         <h2>Haciendo Historia</h2>
                         <h1>En Cada Evento</h1>
                         <p>
-                            Rodeado de espacios verdes, EventCraft es una alternativa diferente, que ofrece un servicio personalizado y de excelencia, donde podrás encontrar profesionalismo y calidez. Inmerso en un amplio parque, sus alrededores y vistas son incomparables.
+                        En EventCraft, ofrecemos una experiencia única con salones versátiles y modernos, diseñados para hacer de tu evento un momento memorable. Con un servicio personalizado y de excelencia, nuestros espacios están pensados para adaptarse a tus necesidades. 
                         </p>
                         <button className="info-button" onClick={() => navigate('/nosotros')}>Más información</button>
                     </div>
